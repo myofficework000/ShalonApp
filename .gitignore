@@ -13,6 +13,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+<<<<<<< HEAD
 .idea/vcs.xml
 .idea
 
+=======
+.idea
+>>>>>>> master

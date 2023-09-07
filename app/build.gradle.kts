@@ -1,6 +1,7 @@
 plugins {
-    id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.android.application")
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
 }
@@ -50,6 +51,9 @@ android {
         }
     }
 }
+kotlin {
+    jvmToolchain(17)
+}
 
 dependencies {
 
@@ -70,19 +74,49 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    //Room Dependency
+    implementation("androidx.room:room-runtime:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+
     //Dagger-hilt
     implementation("com.google.dagger:hilt-android:2.45")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
 
-    // ktx activity with view model injection
-    implementation("androidx.activity:activity-ktx:1.7.2")
-
-    //
+    // Constraint Layout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    // nav
-    implementation("androidx.navigation:navigation-compose:2.5.0")
+
     // For Observing the state of Livedata in Compose
     implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
+    // ktx activity with view model injection
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    // For Observing the state of Livedata in Compose
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
+
+    //   Coil
+    implementation("io.coil-kt:coil-compose:1.3.2")
+
+    // navigation component
+    implementation("androidx.navigation:navigation-compose:2.5.0")
+
+    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
+
+
+    //Rx-Java
+    implementation("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+
+    //for viewModel scope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
 }
