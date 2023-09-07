@@ -1,7 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -31,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -68,6 +69,20 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
+    //Dagger-hilt
+    implementation("com.google.dagger:hilt-android:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
+
+    // ktx activity with view model injection
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    //
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    // nav
+    implementation("androidx.navigation:navigation-compose:2.5.0")
+    // For Observing the state of Livedata in Compose
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
 
 }
