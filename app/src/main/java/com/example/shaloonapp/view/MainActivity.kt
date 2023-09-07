@@ -1,4 +1,4 @@
-package com.example.shaloonapp
+package com.example.shaloonapp.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
