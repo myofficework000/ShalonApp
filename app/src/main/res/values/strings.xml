@@ -2,4 +2,13 @@
     <string name="app_name">ShaloonApp</string>
     <string name="choose_date">Choose Date</string>
     <string name="choose_another_barber">Choose Another Barber</string>
+    <string name="Aleardy_have_an_account_Login">Aleardy have an account?Login</string>
+    <string name="SignUp">SignUp</string>
+    <string name="Lets_Get_Started">Lets Get Started!</string>
+    <string name="userName">userName</string>
+    <string name="enter_your_name">enter your name</string>
+    <string name="password">password</string>
+    <string name="enter_your_password">enter your password</string>
+    <string name="Email">Email</string>
+    <string name="enter_your_Email">enter your Email</string>
 </resources>
