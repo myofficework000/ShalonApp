@@ -98,8 +98,6 @@ dependencies {
 
     // ktx activity with view model injection
     implementation("androidx.activity:activity-ktx:1.7.2")
-    // For Observing the state of Livedata in Compose
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
     //   Coil
     implementation("io.coil-kt:coil-compose:1.3.2")

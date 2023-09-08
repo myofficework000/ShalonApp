@@ -3,7 +3,9 @@ package com.example.shaloonapp.view
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,19 +22,24 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,6 +65,14 @@ fun SelectServiceScreen(navController: NavHostController) {
     val listOfService = selectServiceScreenViewModel.listOfService.observeAsState()
 
     var selectedService by remember { mutableStateOf<Service?>(null) }
+
+    var showDialog =  remember { mutableStateOf<Boolean>(false) }
+
+    if(showDialog.value){
+        DialogWithImage(service = selectedService?: Service(), setShowDialog = {
+            showDialog.value = it
+        }, imageDescription = "dsafads")
+    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -110,7 +125,8 @@ fun SelectServiceScreen(navController: NavHostController) {
                ServiceViewHolder(
                    service = service,
                    selectedService = selectedService,
-                   onServiceSelected = {selectedService = it}
+                   onServiceSelected = {selectedService = it},
+                   setShowDialog = {showDialog.value = it}
                )
            }
         }
@@ -127,11 +143,11 @@ fun SelectServiceScreen(navController: NavHostController) {
                     height = Dimension.wrapContent
                 }
         ) {
-            Text(text = "Choose Date")
+            Text(text = stringResource(R.string.choose_date))
         }
         Button(
             onClick = { },
-            colors = ButtonDefaults.buttonColors(Purple40),
+            colors = ButtonDefaults.buttonColors(Color.Red),
             modifier = Modifier
                 .padding(20.dp)
                 .constrainAs(btnAnotherBarber) {
@@ -141,7 +157,7 @@ fun SelectServiceScreen(navController: NavHostController) {
                     height = Dimension.wrapContent
                 }
         ) {
-            Text(text = "Choose Date")
+            Text(text = stringResource(R.string.choose_another_barber))
         }
 
     }
@@ -151,6 +167,7 @@ fun SelectServiceScreen(navController: NavHostController) {
 fun ServiceViewHolder(
     service: Service,
     selectedService: Service?,
+    setShowDialog: (Boolean) -> Unit,
     onServiceSelected: (Service) -> Unit){
 
     Card(
@@ -178,7 +195,7 @@ fun ServiceViewHolder(
                 modifier = Modifier
                     .height(100.dp)
                     .width(100.dp)
-                    .padding( 15.dp)
+                    .padding(15.dp)
                     .constrainAs(img) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
@@ -210,7 +227,9 @@ fun ServiceViewHolder(
 
                         )
                 OutlinedButton(
-                    onClick = { /* Action to perform */ },
+                    onClick = {
+                        onServiceSelected(service)
+                        setShowDialog(true)      },
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black),
                     border = null,
                     modifier = Modifier
@@ -221,6 +240,75 @@ fun ServiceViewHolder(
             }
 
 
+        }
+    }
+}
+@Composable
+fun DialogWithImage(
+    service: Service,
+    setShowDialog: (Boolean) -> Unit,
+    imageDescription: String,
+) {
+    Dialog(onDismissRequest = { setShowDialog(false) }) {
+        // Draw a rectangle shape with rounded corners inside the dialog
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(400.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painter =  painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = imageDescription,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .height(160.dp)
+                )
+                Text(text = service.title,
+                    modifier = Modifier
+                        .padding(15.dp)
+                        )
+                Text(
+                    text = service.description,
+                    modifier = Modifier.padding(16.dp),
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Text(text = "${service.durationInMinute} min",
+                        modifier = Modifier
+                            .padding( 15.dp)
+
+                    )
+                    Text(text = " $ ${service.price}",
+                        modifier = Modifier
+                            .padding(15.dp)
+
+                    )
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    TextButton(
+                        onClick = { setShowDialog(false) },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text("Dismiss")
+                    }
+                }
+            }
         }
     }
 }
