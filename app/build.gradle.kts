@@ -73,6 +73,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -81,23 +82,24 @@ dependencies {
 
     //Room Dependency
     implementation("androidx.room:room-runtime:2.5.2")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
     ksp("androidx.room:room-compiler:2.5.2")
+
 
     //Dagger-hilt
     implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
 
-    // ktx activity with view model injection
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    // Constraint Layout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
     // For Observing the state of Livedata in Compose
     implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
-//    Coin
+    // ktx activity with view model injection
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    //   Coil
     implementation("io.coil-kt:coil-compose:1.3.2")
 
     // navigation component
@@ -114,4 +116,5 @@ dependencies {
 
     //for viewModel scope
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
 }
