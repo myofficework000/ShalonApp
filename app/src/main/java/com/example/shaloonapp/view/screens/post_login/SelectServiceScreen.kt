@@ -1,6 +1,5 @@
 package com.example.shaloonapp.view.screens.post_login
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +23,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +50,11 @@ import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
@@ -171,6 +175,14 @@ fun ServiceViewHolder(
     setShowDialog: (Boolean) -> Unit,
     onServiceSelected: (Service) -> Unit){
 
+    var imgURL : String by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit){
+        GlobalScope.launch(Dispatchers.IO) {
+            imgURL = getImgURLFromFirebase(service.imgURL)
+        }
+    }
+
     Card(
         modifier = Modifier
             .padding(10.dp)
@@ -190,21 +202,10 @@ fun ServiceViewHolder(
                 .padding(10.dp)
                 .fillMaxWidth()
         ) {
-            val (img, serviceTitle, serviceDuration, servicePrice, btnDetail, bottomContainer) = createRefs()
-            /*Image(painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "hearFrom Img ",
-                modifier = Modifier
-                    .height(100.dp)
-                    .width(100.dp)
-                    .padding(15.dp)
-                    .constrainAs(img) {
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                    })*/
+            val (img, serviceTitle, bottomContainer) = createRefs()
 
-            Log.i("tag",service.imgURL)
             AsyncImage(
-                model = service.imgURL,
+                model = imgURL,
                 contentDescription = "service img",
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.ic_launcher_background),
@@ -264,6 +265,14 @@ fun DialogWithImage(
     setShowDialog: (Boolean) -> Unit,
     imageDescription: String,
 ) {
+
+    var imgURL : String by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit){
+        GlobalScope.launch(Dispatchers.IO) {
+            imgURL = getImgURLFromFirebase(service.imgURL)
+        }
+    }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         // Draw a rectangle shape with rounded corners inside the dialog
         Card(
@@ -280,8 +289,7 @@ fun DialogWithImage(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 AsyncImage(
-                  //  model = service.imgURL,
-                    model = "https://picsum.photos/200",
+                    model = imgURL,
                     contentDescription = "service img",
                     placeholder = painterResource(R.drawable.ic_launcher_background),
                     contentScale = ContentScale.Fit,
