@@ -44,7 +44,7 @@ class InitializeDataViewModel @Inject constructor(
             "img/body_scrub.jpg"),
         Service(8, "Hair Color", 50, "Hair coloring services", 120,
             "img/hair_color.jpeg"),
-        Service(9, "Eyebrow Threading", 12, "Precise eyebrow shaping", 15, ""),
+        Service(9, "Eyebrow Threading", 12, "Precise eyebrow shaping", 15, "sdaf"),
         Service(10, "Makeup", 40, "Professional makeup application", 60, ""),
         Service(11, "Nail Extensions", 30, "Nail extensions and design", 60, ""),
         Service(12, "Hot Stone Massage", 50, "Hot stone therapy", 75, ""),

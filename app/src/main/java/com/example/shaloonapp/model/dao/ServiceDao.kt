@@ -10,14 +10,14 @@ import com.example.shaloonapp.model.dto.Service
 @Dao
 interface ServiceDao {
     @Query("SELECT * FROM $SERVICE_TABLE_NAME")
-    fun getAllService():List<Service>
+    suspend fun getAllService():List<Service>
 
     @Query("SELECT * FROM $SERVICE_TABLE_NAME WHERE  serviceId = :serviceId")
-    fun getServiceById(serviceId: Int): Service
+    suspend fun getServiceById(serviceId: Int): Service
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertService(service: Service)
+    suspend fun insertService(service: Service)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMultipleService(services: List<Service>)
+    suspend fun insertMultipleService(services: List<Service>)
 }

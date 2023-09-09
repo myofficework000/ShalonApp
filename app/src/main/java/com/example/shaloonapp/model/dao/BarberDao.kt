@@ -10,14 +10,15 @@ import com.example.shaloonapp.model.dto.Barber
 @Dao
 interface BarberDao {
     @Query("SELECT * FROM ${BARBER_TABLE_NAME}")
-    fun getAllBarber(): List<Barber>
+    suspend fun getAllBarber(): List<Barber>
 
     @Query("SELECT * FROM ${BARBER_TABLE_NAME} WHERE  barberId = :barberId")
-    fun getBarberById(barberId:Int): Barber
+    suspend fun getBarberById(barberId:Int): Barber
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBarber(barber: Barber)
+    suspend fun insertBarber(barber: Barber)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMultipleBarber(barber: List<Barber>)
+
+    suspend fun insertMultipleBarber(barber: List<Barber>)
 }

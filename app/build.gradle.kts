@@ -85,6 +85,8 @@ dependencies {
     //Room Dependency
     implementation("androidx.room:room-runtime:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
+    //To use Coroutine features, you must add `ktx` artifact from Room as a dependency.
+    implementation ("androidx.room:room-ktx:2.4.0")
 
 
     //Dagger-hilt

@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,8 +53,6 @@ import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
@@ -177,9 +176,16 @@ fun ServiceViewHolder(
 
     var imgURL : String by remember { mutableStateOf("") }
 
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
     LaunchedEffect(Unit){
-        GlobalScope.launch(Dispatchers.IO) {
-            imgURL = getImgURLFromFirebase(service.imgURL)
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(service.imgURL)
+            }catch (e: Exception){
+                ""
+            }
+
         }
     }
 
@@ -209,6 +215,7 @@ fun ServiceViewHolder(
                 contentDescription = "service img",
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.ic_launcher_background),
+                error= painterResource(R.drawable.no_img_error),
                 modifier = Modifier
                     .size(100.dp)
                     .padding(15.dp)
@@ -267,12 +274,19 @@ fun DialogWithImage(
 ) {
 
     var imgURL : String by remember { mutableStateOf("") }
-
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
     LaunchedEffect(Unit){
-        GlobalScope.launch(Dispatchers.IO) {
-            imgURL = getImgURLFromFirebase(service.imgURL)
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(service.imgURL)
+            }catch (e: Exception){
+                ""
+            }
+
         }
     }
+
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         // Draw a rectangle shape with rounded corners inside the dialog
         Card(
@@ -292,6 +306,7 @@ fun DialogWithImage(
                     model = imgURL,
                     contentDescription = "service img",
                     placeholder = painterResource(R.drawable.ic_launcher_background),
+                    error= painterResource(R.drawable.no_img_error),
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.height(160.dp)
                 )

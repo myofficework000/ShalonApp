@@ -10,11 +10,11 @@ import com.example.shaloonapp.model.dto.User
 @Dao
 interface UserDao {
     @Query("SELECT * FROM $USER_TABLE_NAME")
-    fun getAllUser():List<User>
+    suspend fun getAllUser():List<User>
 
     @Query("SELECT * FROM $USER_TABLE_NAME WHERE  userId = :userId")
-    fun getUser(userId:Int):User
+    suspend fun getUser(userId:Int):User
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(user: User)
+    suspend fun insertUser(user: User)
 }
