@@ -2,4 +2,5 @@
     <string name="app_name">ShaloonApp</string>
     <string name="choose_date">Choose Date</string>
     <string name="choose_another_barber">Choose Another Barber</string>
+    <string name="select_service">Select Service</string>
 </resources>

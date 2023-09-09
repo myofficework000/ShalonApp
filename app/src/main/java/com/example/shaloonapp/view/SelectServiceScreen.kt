@@ -2,7 +2,6 @@ package com.example.shaloonapp.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,8 +46,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Service
-import com.example.shaloonapp.ui.theme.Purple40
-import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.ui.theme.ButtonBackground
+import com.example.shaloonapp.ui.theme.ButtonTxt
+import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_Text
+import com.example.shaloonapp.ui.theme.SelectServiceScreen_Title_Text
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
 
 @Preview(showBackground = true)
@@ -78,10 +79,9 @@ fun SelectServiceScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val (screenTitle, title, serviceContainer, btnChooseDate, btnAnotherBarber) = createRefs()
+        val (screenTitle, title, serviceContainer,btnContainer, btnChooseDate, btnAnotherBarber) = createRefs()
 
         Box(modifier = Modifier
-            .background(SelectServiceScreen_TitleScreen_BackGround)
             .constrainAs(screenTitle) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
@@ -89,15 +89,17 @@ fun SelectServiceScreen(navController: NavHostController) {
                 width = Dimension.fillToConstraints
                 height = Dimension.wrapContent
             }){
-            Text(text = "Select Service",
-                color = Color.White,
+            Text(text = stringResource(R.string.select_service),
+                color = SelectServiceScreen_TitleScreen_Text,
                 fontSize = 20.sp,
+                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(20.dp))
         }
 
         Text(
             text = "Haircut",
-            fontSize = 15.sp,
+            fontSize = 20.sp,
+            color = SelectServiceScreen_Title_Text,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(20.dp)
@@ -112,7 +114,7 @@ fun SelectServiceScreen(navController: NavHostController) {
         LazyColumn(modifier = Modifier
             .padding(20.dp)
             .constrainAs(serviceContainer) {
-                bottom.linkTo(btnChooseDate.top)
+                bottom.linkTo(btnContainer.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 top.linkTo(title.bottom)
@@ -130,36 +132,31 @@ fun SelectServiceScreen(navController: NavHostController) {
                )
            }
         }
-
-        Button(
-            onClick = { },
-            colors = ButtonDefaults.buttonColors(Purple40),
-            modifier = Modifier
-                .padding(20.dp)
-                .constrainAs(btnChooseDate) {
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth().padding(20.dp).constrainAs(btnContainer){
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+            }
         ) {
-            Text(text = stringResource(R.string.choose_date))
-        }
-        Button(
-            onClick = { },
-            colors = ButtonDefaults.buttonColors(Color.Red),
-            modifier = Modifier
-                .padding(20.dp)
-                .constrainAs(btnAnotherBarber) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                }
-        ) {
-            Text(text = stringResource(R.string.choose_another_barber))
-        }
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(ButtonBackground),
+                modifier = Modifier
 
+            ) {
+                Text(text = stringResource(R.string.choose_another_barber),
+                    color = ButtonTxt)
+            }
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(ButtonBackground),
+                modifier = Modifier
+            ) {
+                Text(text = stringResource(R.string.choose_date),
+                    color = ButtonTxt)
+            }
+        }
     }
 }
 
