@@ -202,7 +202,7 @@ fun ServiceViewHolder(
                     })
 
 
-            Text(text = service.title,
+            Text(text = service.name,
                 modifier = Modifier
                     .padding(15.dp)
                     .constrainAs(serviceTitle) {
@@ -271,7 +271,7 @@ fun DialogWithImage(
                     modifier = Modifier
                         .height(160.dp)
                 )
-                Text(text = service.title,
+                Text(text = service.name,
                     modifier = Modifier
                         .padding(15.dp)
                         )
