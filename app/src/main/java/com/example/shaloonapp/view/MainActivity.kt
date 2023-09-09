@@ -6,11 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shaloonapp.ui.theme.ShaloonAppTheme
+import com.example.shaloonapp.view.navigation.PostLoginNavigation
+import com.example.shaloonapp.viewmodel.InitializeDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +24,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                   // PreLoginNavigation()
+                    PostLoginNavigation()
 
+
+                    // Pleas use this view model to init data
+                    var initializeDataViewModel: InitializeDataViewModel = hiltViewModel()
+                    initializeDataViewModel.initDB()
                 }
             }
         }
