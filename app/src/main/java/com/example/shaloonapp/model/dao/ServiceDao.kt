@@ -17,6 +17,7 @@ interface ServiceDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertService(service: Service)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMultipleService(services: List<Service>)
 }

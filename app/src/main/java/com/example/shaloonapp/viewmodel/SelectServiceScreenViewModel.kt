@@ -1,6 +1,5 @@
 package com.example.shaloonapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shaloonapp.model.ResultState
@@ -28,7 +27,6 @@ class SelectServiceScreenViewModel
         val errorResponse = _errorResponse.asStateFlow()
 
     init {
-        //insertMultipleService()
         getAllService()
     }
     fun getAllService(){
@@ -50,21 +48,4 @@ class SelectServiceScreenViewModel
             }
         }
     }
-    fun insertMultipleService(){
-        viewModelScope.launch {
-            try {
-                iRepository.insertMultipleService(getListOfService())
-            }catch (e: Exception){
-                Log.i("SelectServiceScreenViewModel", e.printStackTrace().toString())
-            }
-        }
-    }
-    fun getListOfService()= listOf(
-        Service(0,"hair cut 1",20,"haiadsdfas",10,""),
-        Service(1,"hair cut 2",20,"haiadsdfas",10,""),
-        Service(2,"hair cut 3",20,"haiadsdfas",10,""),
-        Service(3,"hair cut 2",20,"haiadsdfas",10,""),
-        Service(4,"hair cut 3",20,"haiadsdfas",10,""),
-        Service(5,"hair cut 3",20,"haiadsdfas",10,""),
-        )
 }

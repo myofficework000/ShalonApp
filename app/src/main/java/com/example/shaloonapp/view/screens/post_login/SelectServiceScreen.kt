@@ -1,7 +1,7 @@
 package com.example.shaloonapp.view.screens.post_login
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -45,6 +45,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
@@ -190,7 +191,7 @@ fun ServiceViewHolder(
                 .fillMaxWidth()
         ) {
             val (img, serviceTitle, serviceDuration, servicePrice, btnDetail, bottomContainer) = createRefs()
-            Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+            /*Image(painter = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "hearFrom Img ",
                 modifier = Modifier
                     .height(100.dp)
@@ -199,8 +200,22 @@ fun ServiceViewHolder(
                     .constrainAs(img) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
-                    })
+                    })*/
 
+            Log.i("tag",service.imgURL)
+            AsyncImage(
+                model = service.imgURL,
+                contentDescription = "service img",
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(15.dp)
+                    .constrainAs(img) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                    }
+            )
 
             Text(text = service.name,
                 modifier = Modifier
@@ -264,12 +279,13 @@ fun DialogWithImage(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    painter =  painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = imageDescription,
+                AsyncImage(
+                  //  model = service.imgURL,
+                    model = "https://picsum.photos/200",
+                    contentDescription = "service img",
+                    placeholder = painterResource(R.drawable.ic_launcher_background),
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .height(160.dp)
+                    modifier = Modifier.height(160.dp)
                 )
                 Text(text = service.name,
                     modifier = Modifier

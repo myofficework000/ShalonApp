@@ -2,6 +2,7 @@ package com.example.shaloonapp.model.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shaloonapp.model.Constant.USER_TABLE_NAME
 import com.example.shaloonapp.model.dto.User
@@ -14,6 +15,6 @@ interface UserDao {
     @Query("SELECT * FROM $USER_TABLE_NAME WHERE  userId = :userId")
     fun getUser(userId:Int):User
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: User)
 }
