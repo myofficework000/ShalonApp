@@ -23,6 +23,7 @@ abstract class AppDatabase:RoomDatabase() {
             if(DATABASE_INSTANCE ==null){
                 DATABASE_INSTANCE = Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME)
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
             }
 

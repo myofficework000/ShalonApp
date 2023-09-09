@@ -1,6 +1,6 @@
 package com.example.shaloonapp.viewmodel
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shaloonapp.model.ResultState
@@ -21,17 +21,16 @@ class SelectServiceScreenViewModel
         )
     : ViewModel() {
 
-        private var _listOfService = MutableStateFlow<List<Service>>(emptyList())
+        private var _listOfService = MutableStateFlow<List<Service>>(ArrayList<Service>())
         val listOfService = _listOfService.asStateFlow()
 
         private var _errorResponse = MutableStateFlow<String>("")
         val errorResponse = _errorResponse.asStateFlow()
 
     init {
-            listOfService.postValue(getListOfService())
-        }
-
-
+        //insertMultipleService()
+        getAllService()
+    }
     fun getAllService(){
         viewModelScope.launch {
             iRepository.getAllService().collectLatest { resultState ->
@@ -53,20 +52,10 @@ class SelectServiceScreenViewModel
     }
     fun insertMultipleService(){
         viewModelScope.launch {
-            iRepository.i().collectLatest { resultState ->
-                when(resultState){
-                    is ResultState.Success ->
-                        resultState.body?.let {
-                            _listOfService.value = it
-                        }
-                    is ResultState.Error ->{
-                        _errorResponse.value = resultState.errorMessage
-                    }
-                    else ->{
-
-                    }
-                }
-
+            try {
+                iRepository.insertMultipleService(getListOfService())
+            }catch (e: Exception){
+                Log.i("SelectServiceScreenViewModel", e.printStackTrace().toString())
             }
         }
     }

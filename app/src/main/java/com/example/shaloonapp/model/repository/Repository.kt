@@ -7,13 +7,13 @@ import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.model.dto.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-
 import javax.inject.Inject
 
-class RepositoryImpl
+class Repository
     @Inject constructor(
         private val userDao: UserDao,
-        private val serviceDao: ServiceDao): IRepository {
+        private val serviceDao: ServiceDao
+    ): IRepository {
     override suspend fun getAllUser(): Flow<ResultState<List<User>>> {
         return flow {
             userDao.getAllUser().apply {
@@ -36,8 +36,7 @@ class RepositoryImpl
             }
         }
     }
-    override suspend fun insertMultipleService(): ResultState<List<Service>> {
-
-        
+    override suspend fun insertMultipleService(services: List<Service>)  {
+            serviceDao.insertMultipleService(services)
     }
 }
