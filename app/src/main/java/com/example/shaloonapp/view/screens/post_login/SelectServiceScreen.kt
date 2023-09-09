@@ -1,4 +1,4 @@
-package com.example.shaloonapp.view
+package com.example.shaloonapp.view.screens.post_login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
