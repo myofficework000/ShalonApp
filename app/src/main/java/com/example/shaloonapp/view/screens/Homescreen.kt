@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.support.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,21 +48,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_SERVICE_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
+import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.HomeScreenViewModel
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun HomeScreen(){
+fun HomeScreen(navController: NavController){
 
     Scaffold(
         topBar = {
@@ -109,7 +121,9 @@ fun HomeScreen(){
                 ListItem(
                     painterResource(id = R.drawable.baseline_calendar_month_24),
                     text = "Schedule"
-                )
+                ){
+                    navController.navigate(SELECT_SERVICE_SCREEN)
+                }
                 ListItem(
                     painterResource(id = R.drawable.baseline_history_24),
                     text = "History"
@@ -146,7 +160,7 @@ fun CardItems(modifier: Modifier){
     val listOfBarber = homeScreenViewModel.listOfBarber.observeAsState()
 
     val selectServiceScreenViewModel: SelectServiceScreenViewModel = hiltViewModel()
-    val listOfService = selectServiceScreenViewModel.listOfService.observeAsState()
+    val listOfService = selectServiceScreenViewModel.listOfService.collectAsState()
 
     RoundedCard(modifier = modifier.fillMaxWidth()){
         Column(modifier = Modifier.padding(top = 24.dp)) {
@@ -236,16 +250,32 @@ fun BarberItem(modifier: Modifier,barber: Barber){
 fun ServiceItem(modifier: Modifier,service: Service){
 
 //    Card(colors = CardDefaults.cardColors(containerColor = Color.White))
+    var imgURL : String by remember { mutableStateOf("") }
 
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
+    LaunchedEffect(Unit){
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(service.imgURL)
+            }catch (e: Exception){
+                ""
+            }
+
+        }
+    }
         Column(modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.FillBounds,
-                painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "image"
+                model = imgURL,
+                contentDescription = "service img",
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                error= painterResource(R.drawable.ic_launcher_background)
             )
 
             Text(
@@ -255,7 +285,7 @@ fun ServiceItem(modifier: Modifier,service: Service){
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.labelLarge,
-                text = service.title
+                text = service.name
             )
         }
 
@@ -266,12 +296,15 @@ fun ServiceItem(modifier: Modifier,service: Service){
 
 
 @Composable
-fun ListItem(@SuppressLint("SupportAnnotationUsage") @DrawableRes image: Painter,text:String){
+fun ListItem(@SuppressLint("SupportAnnotationUsage") @DrawableRes image: Painter,
+             text:String,
+             onClick: () -> Unit = {}
+){
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Card(modifier = Modifier,
+        Card(modifier = Modifier.clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = Color.White)) {
             Image(
                 modifier = Modifier
