@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "283202469534",
+    "project_id": "shaloonapp",
+    "storage_bucket": "shaloonapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283202469534:android:62ee2b48d3da606eb2858f",
+        "android_client_info": {
+          "package_name": "com.example.shaloonapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRAEUhGU_4G2ojoDY6lWQ57bnS1yYHWDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

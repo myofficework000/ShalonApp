@@ -1,9 +1,6 @@
 package com.example.shaloonapp.view.screens
 
-import android.window.SplashScreen
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,14 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -37,6 +31,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.shaloonapp.R
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.Yellow
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.REGISTER_SCREEN
 
 
 @Composable
@@ -76,7 +72,7 @@ fun SplashScreen(navController: NavController){
 
         Button(
             onClick = {
-                TODO()
+                navController.navigate(REGISTER_SCREEN)
             },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Yellow),
@@ -93,7 +89,7 @@ fun SplashScreen(navController: NavController){
             )
         }
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { navController.navigate(LOGIN_SCREEN) }) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()

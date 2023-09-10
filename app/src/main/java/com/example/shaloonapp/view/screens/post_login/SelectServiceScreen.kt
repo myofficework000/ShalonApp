@@ -1,7 +1,6 @@
-package com.example.shaloonapp.view
+package com.example.shaloonapp.view.screens.post_login
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -24,10 +23,12 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,11 +46,14 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
@@ -62,7 +66,7 @@ fun SelectServiceScreen(navController: NavHostController) {
 
     val selectServiceScreenViewModel: SelectServiceScreenViewModel = hiltViewModel()
 
-    val listOfService = selectServiceScreenViewModel.listOfService.observeAsState()
+    val listOfService = selectServiceScreenViewModel.listOfService.collectAsState()
 
     var selectedService by remember { mutableStateOf<Service?>(null) }
 
@@ -170,6 +174,21 @@ fun ServiceViewHolder(
     setShowDialog: (Boolean) -> Unit,
     onServiceSelected: (Service) -> Unit){
 
+    var imgURL : String by remember { mutableStateOf("") }
+
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
+    LaunchedEffect(Unit){
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(service.imgURL)
+            }catch (e: Exception){
+                ""
+            }
+
+        }
+    }
+
     Card(
         modifier = Modifier
             .padding(10.dp)
@@ -189,20 +208,24 @@ fun ServiceViewHolder(
                 .padding(10.dp)
                 .fillMaxWidth()
         ) {
-            val (img, serviceTitle, serviceDuration, servicePrice, btnDetail, bottomContainer) = createRefs()
-            Image(painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "hearFrom Img ",
+            val (img, serviceTitle, bottomContainer) = createRefs()
+
+            AsyncImage(
+                model = imgURL,
+                contentDescription = "service img",
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                error= painterResource(R.drawable.no_img_error),
                 modifier = Modifier
-                    .height(100.dp)
-                    .width(100.dp)
+                    .size(100.dp)
                     .padding(15.dp)
                     .constrainAs(img) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
-                    })
+                    }
+            )
 
-
-            Text(text = service.title,
+            Text(text = service.name,
                 modifier = Modifier
                     .padding(15.dp)
                     .constrainAs(serviceTitle) {
@@ -249,6 +272,21 @@ fun DialogWithImage(
     setShowDialog: (Boolean) -> Unit,
     imageDescription: String,
 ) {
+
+    var imgURL : String by remember { mutableStateOf("") }
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
+    LaunchedEffect(Unit){
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(service.imgURL)
+            }catch (e: Exception){
+                ""
+            }
+
+        }
+    }
+
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         // Draw a rectangle shape with rounded corners inside the dialog
         Card(
@@ -264,14 +302,15 @@ fun DialogWithImage(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    painter =  painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = imageDescription,
+                AsyncImage(
+                    model = imgURL,
+                    contentDescription = "service img",
+                    placeholder = painterResource(R.drawable.ic_launcher_background),
+                    error= painterResource(R.drawable.no_img_error),
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .height(160.dp)
+                    modifier = Modifier.height(160.dp)
                 )
-                Text(text = service.title,
+                Text(text = service.name,
                     modifier = Modifier
                         .padding(15.dp)
                         )
