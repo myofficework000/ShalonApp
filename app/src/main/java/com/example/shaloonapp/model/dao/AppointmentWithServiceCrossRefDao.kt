@@ -10,7 +10,13 @@ import com.example.shaloonapp.model.dto.AppointmentWithServiceCrossRef
 @Dao
 interface AppointmentWithServiceCrossRefDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAppointmentWithServiceCrossRef(appointmentWithServiceCrossRef: AppointmentWithServiceCrossRef)
+    suspend fun insertAppointmentWithServiceCrossRef(
+        appointmentWithServiceCrossRef: AppointmentWithServiceCrossRef)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMultipleAppointmentWithServiceCrossRef(
+        appointmentWithServiceCrossRefs: List<AppointmentWithServiceCrossRef>)
+
     @Query("SELECT * FROM $APPOINTMENT_WITH_SERVICE_TABLE_NAME")
-    suspend fun getAllAppointmentWithService():List<AppointmentWithServiceCrossRef>
+    suspend fun getAllAppointmentWithServiceCrossRef():List<AppointmentWithServiceCrossRef>
 }

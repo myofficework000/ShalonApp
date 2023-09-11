@@ -2,7 +2,6 @@ package com.example.shaloonapp.model.dto
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import com.example.shaloonapp.model.Constant.APPOINTMENT_WITH_SERVICE_TABLE_NAME
 
 @Entity(tableName = APPOINTMENT_WITH_SERVICE_TABLE_NAME,
@@ -14,10 +13,9 @@ import com.example.shaloonapp.model.Constant.APPOINTMENT_WITH_SERVICE_TABLE_NAME
             parentColumns = ["serviceId"],
             childColumns = ["serviceId"]),
 
-    ])
+    ],
+    primaryKeys = ["appointmentId", "serviceId"])
 data class AppointmentWithServiceCrossRef(
-    @PrimaryKey
     val appointmentId: Int ,
-    @PrimaryKey
     val serviceId: Int ,
 )

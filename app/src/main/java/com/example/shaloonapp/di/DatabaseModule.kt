@@ -22,7 +22,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getAppDatabase(context) ?: throw IllegalStateException("AppDatabase not initialized.")
+        return AppDatabase.getAppDatabase(context) ?:
+        throw IllegalStateException("AppDatabase not initialized.")
     }
     @Provides
     @Singleton

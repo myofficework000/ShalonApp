@@ -20,13 +20,13 @@ enum class PaymentMethod{
     ])
 data class Appointment(
     @PrimaryKey(autoGenerate = true)
-    val appointmentId: Int =0,
+    val appointmentId: Int? =0,
 
     val userId: Int,
     val barberId: Int,
     val appointmentDate: String ="",
     val appointmentTime: String ="",
-    val serviceCharge: Double,
+    val serviceCharge: Double =0.0,
     val status: String = "",
     val paymentMode: String= ""
 )
