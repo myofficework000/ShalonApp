@@ -30,7 +30,7 @@ class HomeScreenViewModel @Inject constructor(private val iRepository: IReposito
 
     fun getAllBarber(){
         viewModelScope.launch {
-            iRepository.getAllBarbers().collectLatest {resultState ->
+            iRepository.getAllBarber().collectLatest {resultState ->
                 when(resultState){
                     is ResultState.Success ->
                         resultState.body?.let {

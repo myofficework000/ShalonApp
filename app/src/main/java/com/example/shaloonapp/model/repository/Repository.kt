@@ -53,6 +53,18 @@ class Repository
         }
     }
 
+    override suspend fun getUser(emailId: String, password: String): Flow<ResultState<User>> {
+        return flow {
+            userDao.getUser(emailId, password).apply {
+                this.let {
+                    emit(ResultState.Success(it))
+                }.runCatching {
+                    // error
+                }
+            }
+        }
+    }
+
     override suspend fun insertUser(user: User) { userDao.insertUser(user) }
     override suspend fun insertMultipleUser(users: List<User>) {
         userDao.insertMultipleService(users)
