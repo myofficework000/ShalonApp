@@ -3,10 +3,16 @@ package com.example.shaloonapp.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shaloonapp.model.ResultState
+import com.example.shaloonapp.model.dto.Appointment
+import com.example.shaloonapp.model.dto.AppointmentWithServiceCrossRef
 import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
+import com.example.shaloonapp.model.dto.User
 import com.example.shaloonapp.model.repository.IRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +30,37 @@ class InitializeDataViewModel @Inject constructor(
             try {
                 iRepository.insertMultipleService(getListOfService())
                 iRepository.insertMultipleBarber(getListOfBarbers())
+                iRepository.insertMultipleUser(getListOfUser())
+
+                delay(5000)
+                // testing
+                iRepository.insertMultipleAppointment(getListOfAppointment())
+                delay(5000)
+                iRepository.insertMultipleAppointmentWithServiceCrossRef(
+                    getListOfAppointmentServce())
+                getAptWithService()
+                //////////
             }catch (e: Exception){
                 Log.i("InitializeDataViewModel", e.printStackTrace().toString())
+            }
+        }
+    }
+    fun getAptWithService(){
+        viewModelScope.launch {
+            iRepository.getAllAppointmentWithListOfService().collectLatest { resultState ->
+                when(resultState){
+                    is ResultState.Success ->
+                        resultState.body?.let {
+                           Log.i("InitializeDataViewModel",it.toString())
+                        }
+                    is ResultState.Error ->{
+                        Log.i("InitializeDataViewModel",resultState.errorMessage)
+                    }
+                    else ->{
+
+                    }
+                }
+
             }
         }
     }
@@ -151,7 +186,7 @@ class InitializeDataViewModel @Inject constructor(
         Barber(7, "James", "Wilson", "7 years", 3.0, "img/baber/man_3.png"),
         Barber(8, "Sophia", "Moore", "5 years", 2.4, "img/baber/woman_4.png"),
         Barber(9, "Benjamin", "Taylor", "6 years", 4.0, "img/baber/man_4.png"),
-        Barber(10, "Ava", "Anderson", "8 years", 4.0, ""),
+        Barber(10, "Ava", "Anderson", "8 years", 4.0, "img/baber/woman_1.png"),
         Barber(11, "Liam", "Thomas", "4 years", 4.9, "img/baber/man_2.png"),
         Barber(12, "Emma", "Jackson", "6 years", 5.0, ""),
         Barber(13, "Daniel", "White", "7 years", 4.3, ""),
@@ -173,4 +208,34 @@ class InitializeDataViewModel @Inject constructor(
         Barber(29, "Jameson", "Campbell", "4 years", 2.0, ""),
         Barber(30, "Sofia", "Parker", "7 years", 2.9,"")
     )
+
+    fun getListOfUser()= listOf(
+        User(0,"duc","nguyen","",""),
+        User(1,"hu","shiyan","",""),
+        User(2,"pavani","velma","",""),
+        User(3,"yuan","yao","",""),
+        User(4,"amar","sapcanin","",""),
+
+    )
+
+    fun getListOfAppointment() = listOf(
+        Appointment(1, 1, 1, "2023-09-11", "10:00 AM", 25.0, "confirmed", "BANK"),
+        Appointment(1, 2, 1, "2023-09-12", "11:00 AM", 25.0, "confirmed", "BANK"),
+        Appointment(2, 1, 2, "2023-09-13", "12:00 PM", 30.0, "confirmed", "CASH"),
+        Appointment(3, 3, 3, "2023-09-14", "1:00 PM", 35.0, "confirmed", "BANK")
+    )
+
+
+    fun getListOfAppointmentServce() = listOf(
+        AppointmentWithServiceCrossRef(1,1),
+        AppointmentWithServiceCrossRef(2,2),
+        AppointmentWithServiceCrossRef(2,3),
+        AppointmentWithServiceCrossRef(2,4),
+
+        AppointmentWithServiceCrossRef(1,2),
+        AppointmentWithServiceCrossRef(1,3),
+        AppointmentWithServiceCrossRef(1,4),
+    )
+
+
 }
