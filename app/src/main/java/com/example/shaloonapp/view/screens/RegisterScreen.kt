@@ -8,17 +8,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,23 +36,35 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.shaloonapp.R
+import com.example.shaloonapp.model.dto.User
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.Yellow
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.REGISTER_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
 import com.example.shaloonapp.view.screens.components.TextInput
+import com.example.shaloonapp.viewmodel.RegisterViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun RegisterScreen(navController: NavController) {
 
+    val registerViewModel :RegisterViewModel = hiltViewModel()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Purple40),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Purple40)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
         Image(
@@ -61,15 +77,20 @@ fun RegisterScreen(navController: NavController) {
         )
         CardView(modifier = Modifier
             .fillMaxHeight()
-            .padding(top = 10.dp))
+            .padding(top = 10.dp),
+                viewModel = registerViewModel,
+            coroutineScope = coroutineScope,
+            navController = navController
+            )
     }
 
 }
 
 @Composable
-fun CardView(modifier: Modifier){
+fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: CoroutineScope, navController: NavController){
 
-    var userName by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 
@@ -84,14 +105,30 @@ fun CardView(modifier: Modifier){
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.headlineMedium,
-                text = stringResource(id = R.string.userName)
+                text = stringResource(id = R.string.first_name)
             )
 
             TextInput(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-                text = userName, onValueChange = { userName = it },
-                label =stringResource(id = R.string.enter_your_name)
+                text = firstName, onValueChange = { firstName = it },
+                label =stringResource(id = R.string.enter_your_first_name)
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 10.dp),
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineMedium,
+                text = stringResource(id = R.string.last_name)
+            )
+
+            TextInput(modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+                text = lastName, onValueChange = { lastName = it },
+                label =stringResource(id = R.string.enter_your_last_name)
             )
 
             Text(
@@ -133,7 +170,15 @@ fun CardView(modifier: Modifier){
 
             Button(
                 onClick = {
-                    TODO()
+                    coroutineScope.launch {
+                        registerUser(firstName, lastName, password, email, viewModel)
+                    }
+                    navController.navigate(LOGIN_SCREEN){
+                        popUpTo(REGISTER_SCREEN){
+                            inclusive = true
+                        }
+                    }
+
                 },
                 shape= RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(Yellow),
@@ -149,18 +194,43 @@ fun CardView(modifier: Modifier){
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
                 )
             }
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 10.dp),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodySmall,
-                text = stringResource(id = R.string.Aleardy_have_an_account_Login)
-            )
+            TextButton(onClick = {
+                navController.navigate(LOGIN_SCREEN){
+                    popUpTo(REGISTER_SCREEN){
+                        inclusive = true
+                    }
+                }
+            }) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, start = 10.dp, bottom = 8.dp),
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodySmall,
+                    text = stringResource(id = R.string.Aleardy_have_an_account_Login)
+                )
+            }
 
         }
 
     }
 
+}
+
+private suspend fun registerUser(
+    firstName:String,
+    lastName:String,
+    password:String,
+    email:String,
+    viewModel: RegisterViewModel
+){
+    val user = User(
+        firstName = firstName,
+        lastName = lastName,
+        password = password,
+        email = email
+    )
+    viewModel.insertUser(user)
 }

@@ -23,6 +23,7 @@ fun PreLoginNavigation() {
         composable(route = SPLASH_SCREEN) { SplashScreen(navController) }
         composable(route = LOGIN_SCREEN) { LoginScreen(navController) }
         composable(route = REGISTER_SCREEN) { RegisterScreen(navController) }
+        PostLoginNavigation(navController)
     }
 }
 object PreLoginNavRoutes {

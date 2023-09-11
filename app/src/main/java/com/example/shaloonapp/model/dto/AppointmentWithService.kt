@@ -1,3 +1,3 @@
 package com.example.shaloonapp.model.dto
 
-data class AppointmentWithService()
+//data class AppointmentWithService()

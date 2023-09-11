@@ -4,11 +4,15 @@
     <string name="choose_another_barber">Choose Another Barber</string>
     <string name="Aleardy_have_an_account_Login">Aleardy have an account?Login</string>
     <string name="SignUp">SignUp</string>
+    <string name="SignIn">SignIn</string>
     <string name="Lets_Get_Started">Lets Get Started!</string>
-    <string name="userName">userName</string>
-    <string name="enter_your_name">enter your name</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="enter_your_first_name">enter your first name</string>
+    <string name="enter_your_last_name">enter your last name</string>
     <string name="password">password</string>
     <string name="enter_your_password">enter your password</string>
     <string name="Email">Email</string>
     <string name="enter_your_Email">enter your Email</string>
+    <string name="email">Email</string>
 </resources>

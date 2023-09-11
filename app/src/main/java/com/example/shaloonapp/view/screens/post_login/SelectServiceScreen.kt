@@ -150,7 +150,9 @@ fun SelectServiceScreen(navController: NavHostController) {
             Text(text = stringResource(R.string.choose_date))
         }
         Button(
-            onClick = { },
+            onClick = {
+                      navController.popBackStack()
+            },
             colors = ButtonDefaults.buttonColors(Color.Red),
             modifier = Modifier
                 .padding(20.dp)

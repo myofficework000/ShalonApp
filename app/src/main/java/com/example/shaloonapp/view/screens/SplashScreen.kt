@@ -33,6 +33,7 @@ import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.Yellow
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.REGISTER_SCREEN
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.SPLASH_SCREEN
 
 
 @Composable
@@ -72,7 +73,11 @@ fun SplashScreen(navController: NavController){
 
         Button(
             onClick = {
-                navController.navigate(REGISTER_SCREEN)
+                navController.navigate(REGISTER_SCREEN){
+                    popUpTo(SPLASH_SCREEN){
+                        inclusive = true
+                    }
+                }
             },
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Yellow),
@@ -89,7 +94,13 @@ fun SplashScreen(navController: NavController){
             )
         }
 
-        TextButton(onClick = { navController.navigate(LOGIN_SCREEN) }) {
+        TextButton(onClick = {
+            navController.navigate(LOGIN_SCREEN){
+                popUpTo(SPLASH_SCREEN){
+                    inclusive = true
+                }
+            }
+        }) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()

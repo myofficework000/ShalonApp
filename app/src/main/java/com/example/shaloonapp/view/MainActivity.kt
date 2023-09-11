@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shaloonapp.ui.theme.ShaloonAppTheme
 import com.example.shaloonapp.view.navigation.PostLoginNavigation
+import com.example.shaloonapp.view.navigation.PreLoginNavigation
 import com.example.shaloonapp.viewmodel.InitializeDataViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                   // PreLoginNavigation()
-                    PostLoginNavigation()
-
+                    PreLoginNavigation()
 
                     // Pleas use this view model to init data
                     var initializeDataViewModel: InitializeDataViewModel = hiltViewModel()

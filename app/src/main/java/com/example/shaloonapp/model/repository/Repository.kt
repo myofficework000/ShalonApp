@@ -29,6 +29,19 @@ class Repository
         }
     }
 
+    override suspend fun insertUser(user: User) {
+        userDao.insertUser(user)
+    }
+
+    override suspend fun getUser(email: String, password: String): Flow<ResultState<User>> {
+        return flow {
+            userDao.getUserForCredentials(email,password)?.let {
+                emit(ResultState.Success(it))
+            }?: emit(ResultState.Error("Invalid credentials"))
+
+        }
+    }
+
     override suspend fun getAllService(): Flow<ResultState<List<Service>>> {
         return flow {
             serviceDao.getAllService().apply {
@@ -45,5 +58,15 @@ class Repository
 
     override suspend fun insertMultipleBarber(barbers: List<Barber>) {
         barberDao.insertMultipleBarber(barbers)
+    }
+
+    override suspend fun getAllBarbers(): Flow<ResultState<List<Barber>>> {
+        return flow{
+            barberDao.getAllBarber().apply{
+                emit(ResultState.Success(this)).runCatching {
+//                    error
+                }
+            }
+        }
     }
 }
