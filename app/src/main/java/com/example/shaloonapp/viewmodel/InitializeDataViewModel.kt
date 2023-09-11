@@ -19,7 +19,7 @@ class InitializeDataViewModel @Inject constructor(
     fun initDB(){
         insertMultipleService()
     }
-    fun insertMultipleService(){
+    private fun insertMultipleService(){
         viewModelScope.launch {
             try {
                 iRepository.insertMultipleService(getListOfService())
