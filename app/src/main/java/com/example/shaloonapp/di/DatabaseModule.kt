@@ -2,6 +2,9 @@ package com.example.shaloonapp.di
 
 import android.content.Context
 import com.example.shaloonapp.model.AppDatabase
+import com.example.shaloonapp.model.dao.AppointmentDao
+import com.example.shaloonapp.model.dao.AppointmentWithListOfServiceDao
+import com.example.shaloonapp.model.dao.AppointmentWithServiceCrossRefDao
 import com.example.shaloonapp.model.dao.BarberDao
 import com.example.shaloonapp.model.dao.ServiceDao
 import com.example.shaloonapp.model.dao.UserDao
@@ -37,5 +40,21 @@ class DatabaseModule {
     @Singleton
     fun getBarberDao(appDatabase: AppDatabase): BarberDao{
         return appDatabase.getBarberDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getAppointmentDao(appDatabase: AppDatabase): AppointmentDao{
+        return appDatabase.getAppointmentDao()
+    }
+    @Provides
+    @Singleton
+    fun getAppointmentWithListOfServiceDao(appDatabase: AppDatabase): AppointmentWithListOfServiceDao {
+        return appDatabase.getAppointmentWithListOfServiceDao()
+    }
+    @Provides
+    @Singleton
+    fun getAppointmentWithServiceCrossRefDao(appDatabase: AppDatabase): AppointmentWithServiceCrossRefDao {
+        return appDatabase.getAppointmentWithServiceCrossRefDao()
     }
 }

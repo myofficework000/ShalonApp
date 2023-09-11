@@ -11,7 +11,9 @@ interface IRepository {
 
     //function for User Dao
     suspend fun getAllUser(): Flow<ResultState<List<User>>>
-
+    suspend fun getUser(userId:Int):Flow<ResultState<User>>
+    suspend fun insertUser(user: User)
+    suspend fun insertMultipleUser(users: List<User>)
 
     //function for Service Dao
     suspend fun getAllService(): Flow<ResultState<List<Service>>>
@@ -19,6 +21,14 @@ interface IRepository {
 
 
     //function for Barber Dao
+
+    suspend fun insertBarber(barber: Barber)
     suspend fun insertMultipleBarber(barber: List<Barber>)
 
+
+    //
+
+
+    suspend fun getAllBarber(): Flow<ResultState<List<Barber>>>
+    suspend fun getBarberById(barberId: Int): Flow<ResultState<Barber>>
 }

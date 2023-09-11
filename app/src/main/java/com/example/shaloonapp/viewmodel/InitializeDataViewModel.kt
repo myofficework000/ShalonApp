@@ -151,7 +151,7 @@ class InitializeDataViewModel @Inject constructor(
         Barber(7, "James", "Wilson", "7 years", 3.0, "img/baber/man_3.png"),
         Barber(8, "Sophia", "Moore", "5 years", 2.4, "img/baber/woman_4.png"),
         Barber(9, "Benjamin", "Taylor", "6 years", 4.0, "img/baber/man_4.png"),
-        Barber(10, "Ava", "Anderson", "8 years", 4.0, ""),
+        Barber(10, "Ava", "Anderson", "8 years", 4.0, "img/baber/woman_1.png"),
         Barber(11, "Liam", "Thomas", "4 years", 4.9, "img/baber/man_2.png"),
         Barber(12, "Emma", "Jackson", "6 years", 5.0, ""),
         Barber(13, "Daniel", "White", "7 years", 4.3, ""),

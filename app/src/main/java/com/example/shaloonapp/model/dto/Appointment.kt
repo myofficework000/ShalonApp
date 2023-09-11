@@ -15,7 +15,8 @@ enum class PaymentMethod{
             childColumns = ["userId"]),
         ForeignKey( entity = Barber::class,
             parentColumns = ["barberId"],
-            childColumns = ["barberId"])
+            childColumns = ["barberId"]),
+
     ])
 data class Appointment(
     @PrimaryKey(autoGenerate = true)
@@ -23,7 +24,6 @@ data class Appointment(
 
     val userId: Int,
     val barberId: Int,
-    val services: List<Service>,
     val appointmentDate: String ="",
     val appointmentTime: String ="",
     val serviceCharge: Double,
