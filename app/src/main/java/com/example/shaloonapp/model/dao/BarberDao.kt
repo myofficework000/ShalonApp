@@ -9,10 +9,10 @@ import com.example.shaloonapp.model.dto.Barber
 
 @Dao
 interface BarberDao {
-    @Query("SELECT * FROM ${BARBER_TABLE_NAME}")
+    @Query("SELECT * FROM $BARBER_TABLE_NAME")
     suspend fun getAllBarber(): List<Barber>
 
-    @Query("SELECT * FROM ${BARBER_TABLE_NAME} WHERE  barberId = :barberId")
+    @Query("SELECT * FROM $BARBER_TABLE_NAME WHERE  barberId = :barberId")
     suspend fun getBarberById(barberId:Int): Barber
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
