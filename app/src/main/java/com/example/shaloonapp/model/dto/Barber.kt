@@ -6,11 +6,12 @@ import com.example.shaloonapp.model.Constant.BARBER_TABLE_NAME
 
 @Entity(tableName = BARBER_TABLE_NAME)
 data class Barber(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val barberId: Int =0,
+
     val firstName: String ="",
     val lastName: String ="",
     val experience: String ="",
-    val rating: Int =0,
+    val rating: Double =0.0,
     val imgUrL: String =""
 )

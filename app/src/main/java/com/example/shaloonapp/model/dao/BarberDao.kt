@@ -19,6 +19,5 @@ interface BarberDao {
     suspend fun insertBarber(barber: Barber)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-
     suspend fun insertMultipleBarber(barber: List<Barber>)
 }
