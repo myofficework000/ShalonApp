@@ -3,6 +3,7 @@ package com.example.shaloonapp.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.model.repository.IRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ class InitializeDataViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 iRepository.insertMultipleService(getListOfService())
+                iRepository.insertMultipleBarber(getListOfBarbers())
             }catch (e: Exception){
                 Log.i("InitializeDataViewModel", e.printStackTrace().toString())
             }
@@ -29,21 +31,21 @@ class InitializeDataViewModel @Inject constructor(
     }
     fun getListOfService()= listOf(
         Service(1, "Haircut", 25, "High-quality haircut service", 30,
-            "img/haircut.png"),
+            "img/service/haircut.png"),
         Service(2, "Manicure", 15, "Nail care and styling", 45,
-            "img/manicure_main.jpg"),
+            "img/service/manicure_main.jpg"),
         Service(3, "Pedicure", 20, "Relaxing pedicure treatment", 60,
-            "img/pedicure.png"),
+            "img/service/pedicure.png"),
         Service(4, "Facial", 30, "Revitalize your skin", 45,
-            "img/facial.jpg"),
+            "img/service/facial.jpg"),
         Service(5, "Massage", 40, "Massage therapy", 60,
-            "img/massage.jpg"),
+            "img/service/massage.jpg"),
         Service(6, "Waxing", 35, "Effective hair removal", 30,
-            "img/waxing.jpg"),
+            "img/service/waxing.jpg"),
         Service(7, "Body Scrub", 50, "Exfoliating body scrub", 45,
-            "img/body_scrub.jpg"),
+            "img/service/body_scrub.jpg"),
         Service(8, "Hair Color", 50, "Hair coloring services", 120,
-            "img/hair_color.jpeg"),
+            "img/service/hair_color.jpeg"),
         Service(9, "Eyebrow Threading", 12, "Precise eyebrow shaping", 15, "sdaf"),
         Service(10, "Makeup", 40, "Professional makeup application", 60, ""),
         Service(11, "Nail Extensions", 30, "Nail extensions and design", 60, ""),
@@ -137,5 +139,38 @@ class InitializeDataViewModel @Inject constructor(
         Service(99, "Braided Top Knot", 28, "Top-knotted hairstyle with braids", 45, ""),
         Service(100, "Short Undercut", 15, "Short haircut with undercut style", 25, "")
 
+    )
+
+    fun getListOfBarbers()= listOf(
+        Barber(1, "John", "Doe", "5 years", 4.0, ""),
+        Barber(2, "Jane", "Smith", "8 years", 4.5, ""),
+        Barber(3, "Michael", "Johnson", "6 years", 4.6, ""),
+        Barber(4, "Emily", "Brown", "7 years", 4.7, ""),
+        Barber(5, "William", "Davis", "9 years", 3.9, ""),
+        Barber(6, "Olivia", "Miller", "4 years", 3.5, ""),
+        Barber(7, "James", "Wilson", "7 years", 3.0, ""),
+        Barber(8, "Sophia", "Moore", "5 years", 2.4, ""),
+        Barber(9, "Benjamin", "Taylor", "6 years", 4.0, ""),
+        Barber(10, "Ava", "Anderson", "8 years", 4.0, ""),
+        Barber(11, "Liam", "Thomas", "4 years", 4.9, ""),
+        Barber(12, "Emma", "Jackson", "6 years", 5.0, ""),
+        Barber(13, "Daniel", "White", "7 years", 4.3, ""),
+        Barber(14, "Mia", "Harris", "5 years", 3.5, ""),
+        Barber(15, "Alexander", "Martin", "8 years", 3.6, ""),
+        Barber(16, "Ella", "Thompson", "6 years", 3.7, ""),
+        Barber(17, "Henry", "Garcia", "5 years", 3.8, ""),
+        Barber(18, "Scarlett", "Martinez", "4 years", 3.9, ""),
+        Barber(19, "Sebastian", "Robinson", "7 years", 4.0, ""),
+        Barber(20, "Lily", "Clark", "9 years", 4.1, ""),
+        Barber(21, "Matthew", "Rodriguez", "6 years", 4.2, ""),
+        Barber(22, "Grace", "Lewis", "5 years", 4.3, ""),
+        Barber(23, "Jackson", "Walker", "8 years", 4.4, ""),
+        Barber(24, "Chloe", "Perez", "4 years", 4.5, ""),
+        Barber(25, "Ethan", "Hill", "7 years", 4.6, ""),
+        Barber(26, "Aria", "Scott", "6 years", 4.7, ""),
+        Barber(27, "David", "Turner", "5 years", 4.8, ""),
+        Barber(28, "Avery", "Phillips", "8 years", 4.9, ""),
+        Barber(29, "Jameson", "Campbell", "4 years", 2.0, ""),
+        Barber(30, "Sofia", "Parker", "7 years", 2.9,"")
     )
 }

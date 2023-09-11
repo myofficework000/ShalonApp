@@ -2,6 +2,7 @@ package com.example.shaloonapp.di
 
 import android.content.Context
 import com.example.shaloonapp.model.AppDatabase
+import com.example.shaloonapp.model.dao.BarberDao
 import com.example.shaloonapp.model.dao.ServiceDao
 import com.example.shaloonapp.model.dao.UserDao
 import dagger.Module
@@ -30,5 +31,11 @@ class DatabaseModule {
     @Singleton
     fun getServiceDao(appDatabase: AppDatabase): ServiceDao{
         return appDatabase.getServiceDao()
+    }
+
+    @Provides
+    @Singleton
+    fun getBarberDao(appDatabase: AppDatabase): BarberDao{
+        return appDatabase.getBarberDao()
     }
 }
