@@ -234,7 +234,7 @@ fun BarberItem(modifier: Modifier,barber: Barber){
             )
             RatingBar(
                 modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
-                value = barber.rating,
+                value = barber.rating.toFloat(),
                 size = 10.dp,
                 spaceBetween= 1.dp,
                 style = RatingBarStyle.Default,
