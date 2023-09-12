@@ -51,6 +51,7 @@ import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_TIME_SCREEN
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
 import kotlinx.coroutines.launch
@@ -136,7 +137,19 @@ fun SelectServiceScreen(navController: NavHostController) {
         }
 
         Button(
-            onClick = { },
+            onClick = {
+                selectedService?.durationInMinute?.let {
+                    // "SelectTimeScreen/{ServiceTime}"
+                    // "SelectTimeScreen/60"
+                    navController.navigate(
+                        SELECT_TIME_SCREEN
+                            .replace(
+                                oldValue = "{serviceTime}",
+                                newValue = "$it"
+                            )
+                    )
+                }
+            },
             colors = ButtonDefaults.buttonColors(Purple40),
             modifier = Modifier
                 .padding(20.dp)
