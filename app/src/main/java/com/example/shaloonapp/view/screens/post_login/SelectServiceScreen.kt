@@ -36,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,27 +98,13 @@ fun SelectServiceScreen(navController: NavHostController) {
                 modifier = Modifier.padding(20.dp))
         }
 
-        Text(
-            text = "Haircut",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth()
-                .constrainAs(title) {
-                    top.linkTo(screenTitle.bottom)
-                    start.linkTo(parent.start)
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                }
-        )
         LazyColumn(modifier = Modifier
             .padding(20.dp)
             .constrainAs(serviceContainer) {
                 bottom.linkTo(btnChooseDate.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(title.bottom)
+                top.linkTo(parent.top)
 
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
