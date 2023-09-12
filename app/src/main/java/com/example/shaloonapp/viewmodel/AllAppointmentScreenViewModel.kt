@@ -26,11 +26,31 @@ class AllAppointmentScreenViewModel
     val errorResponse = _errorResponse.asStateFlow()
 
     init {
-        getAppointment()
+       // getAllAppointment()
+        getAppointmentByUserId(1)
     }
-    private fun getAppointment(){
+    private fun getAllAppointment(){
         viewModelScope.launch {
             iRepository.getAllAppointment().collectLatest { resultState ->
+                when(resultState){
+                    is ResultState.Success ->
+                        resultState.body?.let {
+                            _listOfAppointment.value = it
+                        }
+                    is ResultState.Error ->{
+                        _errorResponse.value = resultState.errorMessage
+                    }
+                    else ->{
+
+                    }
+                }
+
+            }
+        }
+    }
+    private fun getAppointmentByUserId(userId: Int){
+        viewModelScope.launch {
+            iRepository.getAppointmentByUserId(userId).collectLatest { resultState ->
                 when(resultState){
                     is ResultState.Success ->
                         resultState.body?.let {

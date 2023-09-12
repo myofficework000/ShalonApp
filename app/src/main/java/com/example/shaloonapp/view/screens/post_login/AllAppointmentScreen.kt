@@ -40,6 +40,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Appointment
 import com.example.shaloonapp.model.dto.Service
+import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Canceled
+import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Confirmed
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.viewmodel.AllAppointmentScreenViewModel
 
@@ -175,6 +177,12 @@ fun AppointmentViewHolder(
                                     else
                                         ImageVector.vectorResource(
                                             R.drawable.baseline_timelapse_24),
+                                tint =
+                                    if(appointment.status == "Canceled")
+                                        AllAppointmentScreen_Icon_Canceled
+                                    else
+                                        AllAppointmentScreen_Icon_Confirmed
+                                    ,
                                 contentDescription = "",
                                 modifier = Modifier.padding(horizontal = 5.dp)
                             )
