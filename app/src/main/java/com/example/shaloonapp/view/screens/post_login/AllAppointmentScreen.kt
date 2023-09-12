@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.shaloonapp.R
@@ -44,16 +45,20 @@ import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Canceled
 import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Confirmed
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.viewmodel.AllAppointmentScreenViewModel
+import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewAllApointmentScreen(){
-    AllAppointmentScreen(rememberNavController())
+    AllAppointmentScreen(rememberNavController(), viewModel())
 }
 
 @Composable
-fun AllAppointmentScreen(navController: NavHostController) {
+fun AllAppointmentScreen(
+    navController: NavHostController,
+    postLoginSharedViewModel: PostLoginSharedViewModel
+) {
     val allAppointmentScreenViewModel: AllAppointmentScreenViewModel = hiltViewModel()
 
     val listOfAppointment = allAppointmentScreenViewModel.listOfAppointment.collectAsState()
@@ -83,6 +88,7 @@ fun AllAppointmentScreen(navController: NavHostController) {
                 items(it){
                         appointment ->
                     AppointmentViewHolder(
+                        postLoginSharedViewModel =postLoginSharedViewModel,
                         appointment = appointment,
                         onServiceSelected = {},
                     )
@@ -95,6 +101,7 @@ fun AllAppointmentScreen(navController: NavHostController) {
 
 @Composable
 fun AppointmentViewHolder(
+    postLoginSharedViewModel: PostLoginSharedViewModel,
     appointment: Appointment,
     onServiceSelected: (Service) -> Unit){
 
@@ -115,7 +122,10 @@ fun AppointmentViewHolder(
             val (  startContainer, moreDetailButton) = createRefs()
 
             IconButton(
-                onClick = { Log.d("Click", "IconExample")},
+                onClick = {
+                    postLoginSharedViewModel.currentAppointment.value=appointment
+                    Log.i("AllAppointmentScreen",
+                        postLoginSharedViewModel.currentAppointment.value.toString())},
                 modifier = Modifier
                     .padding(10.dp)
                     .constrainAs(moreDetailButton) {

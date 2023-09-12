@@ -43,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -51,17 +52,21 @@ import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
+import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 import com.example.shaloonapp.viewmodel.SelectServiceScreenViewModel
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSelectServiceScreen(){
-    SelectServiceScreen(rememberNavController())
+    SelectServiceScreen(rememberNavController(), viewModel())
 }
 
 @Composable
-fun SelectServiceScreen(navController: NavHostController) {
+fun SelectServiceScreen(
+    navController: NavHostController,
+    postLoginSharedViewModel: PostLoginSharedViewModel
+) {
 
     val selectServiceScreenViewModel: SelectServiceScreenViewModel = hiltViewModel()
 

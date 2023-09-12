@@ -11,12 +11,17 @@ import com.example.shaloonapp.view.screens.HomeScreen
 import com.example.shaloonapp.view.screens.post_login.AllAppointmentScreen
 import com.example.shaloonapp.view.screens.post_login.SelectBarber
 import com.example.shaloonapp.view.screens.post_login.SelectServiceScreen
+import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 
-fun NavGraphBuilder.PostLoginNavigation(navController: NavHostController) {
-    composable(route = HOME_SCREEN) { HomeScreen(navController) }
-    composable(route = SELECT_SERVICE_SCREEN) { SelectServiceScreen(navController) }
-    composable(route = SELECT_BARBER_SCREEN) { SelectBarber(navController) }
-    composable(route = ALL_APPOINTMENT_SCREEN) { AllAppointmentScreen(navController)}
+fun NavGraphBuilder.PostLoginNavigation(
+    navController: NavHostController,
+    postLoginSharedViewModel: PostLoginSharedViewModel
+) {
+
+    composable(route = HOME_SCREEN) { HomeScreen(navController,postLoginSharedViewModel) }
+    composable(route = SELECT_SERVICE_SCREEN) { SelectServiceScreen(navController,postLoginSharedViewModel) }
+    composable(route = SELECT_BARBER_SCREEN) { SelectBarber(navController,postLoginSharedViewModel) }
+    composable(route = ALL_APPOINTMENT_SCREEN) { AllAppointmentScreen(navController,postLoginSharedViewModel)}
 }
 
 object PostLoginNavRoutes {

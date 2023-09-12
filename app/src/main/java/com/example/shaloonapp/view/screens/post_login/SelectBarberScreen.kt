@@ -1,11 +1,9 @@
 package com.example.shaloonapp.view.screens.post_login
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,7 +38,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,12 +45,12 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Barber
-import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.ui.theme.Yellow
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_SERVICE_SCREEN
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.HomeScreenViewModel
+import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 import kotlinx.coroutines.launch
@@ -62,7 +58,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectBarber(navController: NavController){
+fun SelectBarber(navController: NavController, postLoginSharedViewModel: PostLoginSharedViewModel){
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val listOfBarber = homeScreenViewModel.listOfBarber.collectAsState()
     var selectedBarber by remember { mutableStateOf<Barber?>(null) }
