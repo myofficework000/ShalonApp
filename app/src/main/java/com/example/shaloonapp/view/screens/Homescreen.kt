@@ -54,6 +54,7 @@ import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_SERVICE_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
@@ -122,7 +123,7 @@ fun HomeScreen(navController: NavController){
                     painterResource(id = R.drawable.baseline_calendar_month_24),
                     text = "Schedule"
                 ){
-                    navController.navigate(SELECT_SERVICE_SCREEN)
+                    navController.navigate(SELECT_BARBER_SCREEN)
                 }
                 ListItem(
                     painterResource(id = R.drawable.baseline_history_24),
@@ -157,7 +158,7 @@ fun CardItems(modifier: Modifier){
 
 
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
-    val listOfBarber = homeScreenViewModel.listOfBarber.observeAsState()
+    val listOfBarber = homeScreenViewModel.listOfBarber.collectAsState()
 
     val selectServiceScreenViewModel: SelectServiceScreenViewModel = hiltViewModel()
     val listOfService = selectServiceScreenViewModel.listOfService.collectAsState()
@@ -211,16 +212,33 @@ fun CardItems(modifier: Modifier){
 fun BarberItem(modifier: Modifier,barber: Barber){
 
 //    Card(colors = CardDefaults.cardColors(containerColor = Color.White))
+    var imgURL : String by remember { mutableStateOf("") }
+
+    // Create a CoroutineScope that follows this composable's lifecycle
+    val composableScope = rememberCoroutineScope()
+    LaunchedEffect(Unit){
+        composableScope.launch {
+            imgURL = try {
+                getImgURLFromFirebase(barber.imgUrL)
+            }catch (e: Exception){
+                ""
+            }
+
+        }
+    }
 
         Column(modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Image(
+            AsyncImage(
+                model = imgURL,
+                contentDescription = "service img",
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                error= painterResource(R.drawable.no_img_error),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .size(100.dp),
-                contentScale = ContentScale.FillBounds,
-                painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "image"
+                    .size(100.dp)
+                    .padding(8.dp)
             )
 
             Text(

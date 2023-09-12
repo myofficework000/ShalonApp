@@ -15,6 +15,7 @@ interface IRepository {
     //function for User Dao
     suspend fun getAllUser(): Flow<ResultState<List<User>>>
     suspend fun getUser(userId:Int):Flow<ResultState<User>>
+    suspend fun getUser(emailId:String, password: String):Flow<ResultState<User>>
     suspend fun insertUser(user: User)
     suspend fun insertMultipleUser(users: List<User>)
 

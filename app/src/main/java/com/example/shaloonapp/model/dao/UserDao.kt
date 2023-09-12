@@ -15,6 +15,12 @@ interface UserDao {
     @Query("SELECT * FROM $USER_TABLE_NAME WHERE  userId = :userId")
     suspend fun getUser(userId:Int):User
 
+    @Query("SELECT * FROM $USER_TABLE_NAME WHERE  userId = :email AND password = :password")
+    suspend fun getUser(email:String, password: String):User
+
+    @Query("SELECT * FROM $USER_TABLE_NAME WHERE  email = :email AND password = :password")
+    suspend fun getUserForCredentials(email:String,password:String):User?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: User)
 
