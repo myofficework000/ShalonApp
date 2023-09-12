@@ -11,7 +11,7 @@ import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.model.dto.User
 import com.example.shaloonapp.model.repository.IRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,16 +28,29 @@ class InitializeDataViewModel @Inject constructor(
     private fun insertMultipleService(){
         viewModelScope.launch {
             try {
-                iRepository.insertMultipleService(getListOfService())
-                iRepository.insertMultipleBarber(getListOfBarbers())
-                iRepository.insertMultipleUser(getListOfUser())
+                // Insert services, barbers, and users concurrently
+                val serviceInsertDeferred = async { iRepository.insertMultipleService(getListOfService()) }
+                val barberInsertDeferred = async { iRepository.insertMultipleBarber(getListOfBarbers()) }
+                val userInsertDeferred = async { iRepository.insertMultipleUser(getListOfUser()) }
 
-                delay(5000)
-                // testing
-                iRepository.insertMultipleAppointment(getListOfAppointment())
-                delay(5000)
-                iRepository.insertMultipleAppointmentWithServiceCrossRef(
-                    getListOfAppointmentServce())
+                // Wait for all insert operations to complete
+                val serviceInsertResult = serviceInsertDeferred.await()
+                val barberInsertResult = barberInsertDeferred.await()
+                val userInsertResult = userInsertDeferred.await()
+
+                // Check the results if needed
+
+                // Insert appointments and cross-references after previous inserts
+                val appointmentInsertDeferred = async {
+                    iRepository.insertMultipleAppointment(getListOfAppointment()) }
+                val crossRefInsertDeferred = async {
+                    iRepository.insertMultipleAppointmentWithServiceCrossRef(
+                        getListOfAppointmentServiceCrossRef())
+                }
+
+                // Wait for the appointment and cross-ref insert operations to complete
+                val appointmentInsertResult = appointmentInsertDeferred.await()
+                val crossRefInsertResult = crossRefInsertDeferred.await()
                 getAptWithService()
                 //////////
             }catch (e: Exception){
@@ -215,26 +228,65 @@ class InitializeDataViewModel @Inject constructor(
         User(2,"pavani","velma","",""),
         User(3,"yuan","yao","",""),
         User(4,"amar","sapcanin","",""),
+        User(5,"john","doe","",""),
+        User(6,"jane","street","",""),
+        User(7,"peter","copper","",""),
+        User(8,"mike","doe","",""),
+        User(9,"tom","mas","",""),
+        User(10,"tony","street","",""),
 
     )
 
     fun getListOfAppointment() = listOf(
-        Appointment(1, 1, 1, "2023-09-11", "10:00 AM", 25.0, "confirmed", "BANK"),
-        Appointment(1, 2, 1, "2023-09-12", "11:00 AM", 25.0, "confirmed", "BANK"),
-        Appointment(2, 1, 2, "2023-09-13", "12:00 PM", 30.0, "confirmed", "CASH"),
-        Appointment(3, 3, 3, "2023-09-14", "1:00 PM", 35.0, "confirmed", "BANK")
+        Appointment(1, 2, 1, "2023-09-12",
+            "11:00 AM", 25.0, "Confirmed", "BANK"),
+        Appointment(2, 1, 2, "2023-09-13",
+            "12:00 PM", 30.0, "Canceled", "CASH"),
+        Appointment(3, 3, 3, "2023-09-14",
+            "1:00 PM", 35.0, "Confirmed", "BANK"),
+        Appointment(4, 2, 1, "2023-09-12",
+            "11:00 AM", 25.0, "Confirmed", "BANK"),
+        Appointment(5, 1, 2, "2023-09-13",
+            "12:00 PM", 30.0, "Confirmed", "CASH"),
+        Appointment(6, 3, 3, "2023-09-14",
+            "1:00 PM", 35.0, "Confirmed", "BANK"),
+        Appointment(7, 2, 1, "2023-09-12",
+            "11:00 AM", 25.0, "Confirmed", "BANK"),
+        Appointment(8, 1, 2, "2023-09-13",
+            "12:00 PM", 30.0, "Confirmed", "CASH"),
+        Appointment(9, 3, 3, "2023-09-14",
+            "1:00 PM", 35.0, "Confirmed", "BANK"),
     )
 
 
-    fun getListOfAppointmentServce() = listOf(
+    fun getListOfAppointmentServiceCrossRef() = listOf(
         AppointmentWithServiceCrossRef(1,1),
+        AppointmentWithServiceCrossRef(1,2),
+        AppointmentWithServiceCrossRef(1,3),
+        AppointmentWithServiceCrossRef(1,4),
+
         AppointmentWithServiceCrossRef(2,2),
         AppointmentWithServiceCrossRef(2,3),
         AppointmentWithServiceCrossRef(2,4),
 
-        AppointmentWithServiceCrossRef(1,2),
-        AppointmentWithServiceCrossRef(1,3),
-        AppointmentWithServiceCrossRef(1,4),
+        AppointmentWithServiceCrossRef(3,5),
+        AppointmentWithServiceCrossRef(3,6),
+        AppointmentWithServiceCrossRef(3,7),
+        AppointmentWithServiceCrossRef(3,4),
+
+        AppointmentWithServiceCrossRef(4,1),
+        AppointmentWithServiceCrossRef(4,2),
+        AppointmentWithServiceCrossRef(4,3),
+        AppointmentWithServiceCrossRef(4,4),
+
+        AppointmentWithServiceCrossRef(5,2),
+        AppointmentWithServiceCrossRef(5,3),
+        AppointmentWithServiceCrossRef(5,4),
+
+        AppointmentWithServiceCrossRef(6,5),
+        AppointmentWithServiceCrossRef(6,6),
+        AppointmentWithServiceCrossRef(6,7),
+        AppointmentWithServiceCrossRef(6,4),
     )
 
 

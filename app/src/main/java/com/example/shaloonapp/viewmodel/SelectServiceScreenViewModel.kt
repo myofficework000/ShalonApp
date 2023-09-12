@@ -29,7 +29,7 @@ class SelectServiceScreenViewModel
     init {
         getAllService()
     }
-    fun getAllService(){
+    private fun getAllService(){
         viewModelScope.launch {
             iRepository.getAllService().collectLatest { resultState ->
                 when(resultState){
