@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.REGISTER_SCREEN
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.SPLASH_SCREEN
@@ -22,7 +22,7 @@ fun PreLoginNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = ALL_APPOINTMENT_SCREEN
+        startDestination = HOME_SCREEN
     ) {
         //Add all the destinations
         composable(route = SPLASH_SCREEN) { SplashScreen(navController) }

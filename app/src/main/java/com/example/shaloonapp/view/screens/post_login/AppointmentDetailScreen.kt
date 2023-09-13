@@ -58,6 +58,7 @@ import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Canceled
 import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Confirmed
 import com.example.shaloonapp.ui.theme.AppointmentDetailScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 import kotlinx.coroutines.launch
@@ -85,7 +86,7 @@ fun AppointmentDetailScreen(
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(HOME_SCREEN) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)) {
