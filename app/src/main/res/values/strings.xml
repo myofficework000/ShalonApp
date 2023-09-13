@@ -18,4 +18,6 @@
     <string name="appointment_screen_title">Appointment</string>
     <string name="appointment_number">Appointment Number: </string>
     <string name="total_cost">"Total Cost: "</string>
+    <string name="appointment_review_screen_title">Appointment Review</string>
+    <string name="confirm_appointment_btn_txt">Confirm Appointment</string>
 </resources>

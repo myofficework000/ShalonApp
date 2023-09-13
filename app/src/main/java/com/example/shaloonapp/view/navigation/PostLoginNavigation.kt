@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_DETAIL_SCREEN
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_REVIEW_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_SERVICE_SCREEN
@@ -14,6 +15,7 @@ import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_TIME_SCR
 import com.example.shaloonapp.view.screens.HomeScreen
 import com.example.shaloonapp.view.screens.post_login.AllAppointmentScreen
 import com.example.shaloonapp.view.screens.post_login.AppointmentDetailScreen
+import com.example.shaloonapp.view.screens.post_login.AppointmentReviewScreen
 import com.example.shaloonapp.view.screens.post_login.SelectBarber
 import com.example.shaloonapp.view.screens.post_login.SelectServiceScreen
 import com.example.shaloonapp.view.screens.post_login.SelectServiceTimeSlot
@@ -29,6 +31,7 @@ fun NavGraphBuilder.PostLoginNavigation(
     composable(route = SELECT_BARBER_SCREEN) { SelectBarber(navController,postLoginSharedViewModel) }
     composable(route = ALL_APPOINTMENT_SCREEN) { AllAppointmentScreen(navController,postLoginSharedViewModel)}
     composable(route = APPOINTMENT_DETAIL_SCREEN) { AppointmentDetailScreen(navController,postLoginSharedViewModel) }
+    composable(route = APPOINTMENT_REVIEW_SCREEN) { AppointmentReviewScreen(navController,postLoginSharedViewModel) }
 
     composable(
         route = SELECT_TIME_SCREEN,
@@ -51,4 +54,5 @@ object PostLoginNavRoutes {
     const val APPOINTMENT_DETAIL_SCREEN = "AppointmentDetailScreen"
     const val SELECT_TIME_SCREEN = "SelectTimeScreen/{serviceTime}"
     const val HOME_SCREEN = "HomeScreen"
+    const val APPOINTMENT_REVIEW_SCREEN="AppointmentReviewScreen"
 }

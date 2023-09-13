@@ -11,6 +11,8 @@ class PostLoginSharedViewModel: ViewModel() {
     var currentAppointment = MutableLiveData<AppointmentWithListOfService>()
     var currentService = MutableLiveData<Service>()
     var currentBarber = MutableLiveData<Barber>()
+    var currentDate = MutableLiveData<String>()
+    var currentTime = MutableLiveData<String>()
 
 
 }
