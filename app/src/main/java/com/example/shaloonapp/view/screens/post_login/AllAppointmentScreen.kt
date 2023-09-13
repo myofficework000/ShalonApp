@@ -1,6 +1,5 @@
 package com.example.shaloonapp.view.screens.post_login
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,11 +39,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.shaloonapp.R
-import com.example.shaloonapp.model.dto.Appointment
-import com.example.shaloonapp.model.dto.Service
+import com.example.shaloonapp.model.dto.AppointmentWithListOfService
 import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Canceled
 import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Confirmed
-import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.ui.theme.AllAppointmentScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_DETAIL_SCREEN
 import com.example.shaloonapp.viewmodel.AllAppointmentScreenViewModel
 import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 
@@ -70,11 +70,11 @@ fun AllAppointmentScreen(
 
 
         Box(modifier = Modifier
-            .background(SelectServiceScreen_TitleScreen_BackGround)
+            .background(AllAppointmentScreen_TitleScreen_BackGround)
             .wrapContentHeight()
             .fillMaxWidth()
             ){
-            Text(text = "Appointment",
+            Text(text = stringResource(R.string.appointment_screen_title),
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(20.dp))
@@ -88,9 +88,10 @@ fun AllAppointmentScreen(
                 items(it){
                         appointment ->
                     AppointmentViewHolder(
-                        postLoginSharedViewModel =postLoginSharedViewModel,
                         appointment = appointment,
-                        onServiceSelected = {},
+                        onAppointmentSelected = {
+                            postLoginSharedViewModel.currentAppointment.value =it
+                            navController.navigate(APPOINTMENT_DETAIL_SCREEN) },
                     )
                 }
             }
@@ -101,9 +102,8 @@ fun AllAppointmentScreen(
 
 @Composable
 fun AppointmentViewHolder(
-    postLoginSharedViewModel: PostLoginSharedViewModel,
-    appointment: Appointment,
-    onServiceSelected: (Service) -> Unit){
+    appointment: AppointmentWithListOfService,
+    onAppointmentSelected: (AppointmentWithListOfService) -> Unit){
 
     Card(
         modifier = Modifier
@@ -122,10 +122,7 @@ fun AppointmentViewHolder(
             val (  startContainer, moreDetailButton) = createRefs()
 
             IconButton(
-                onClick = {
-                    postLoginSharedViewModel.currentAppointment.value=appointment
-                    Log.i("AllAppointmentScreen",
-                        postLoginSharedViewModel.currentAppointment.value.toString())},
+                onClick = {onAppointmentSelected(appointment)},
                 modifier = Modifier
                     .padding(10.dp)
                     .constrainAs(moreDetailButton) {
@@ -159,7 +156,7 @@ fun AppointmentViewHolder(
                     {
                         Row( modifier = Modifier.padding(vertical = 5.dp)) {
                             Text(text = "Appointment: #")
-                            Text(text = appointment.appointmentId.toString())
+                            Text(text = appointment.appointment.appointmentId.toString())
                         }
                         Row( modifier = Modifier.padding(vertical = 5.dp)) {
                             Icon(
@@ -167,7 +164,7 @@ fun AppointmentViewHolder(
                                 contentDescription = "",
                                 modifier = Modifier.padding(horizontal = 5.dp)
                             )
-                            Text(text = appointment.appointmentDate)
+                            Text(text = appointment.appointment.appointmentDate)
                         }
                         Row( modifier = Modifier.padding(vertical = 5.dp)) {
                             Icon(
@@ -176,19 +173,19 @@ fun AppointmentViewHolder(
                                 contentDescription = "",
                                 modifier = Modifier.padding(horizontal = 5.dp)
                             )
-                            Text(text = appointment.appointmentTime)
+                            Text(text = appointment.appointment.appointmentTime)
                         }
                         Row( modifier = Modifier.padding(vertical = 5.dp)) {
                             Icon(
                                 imageVector =
-                                    if(appointment.status == "Canceled")
+                                    if(appointment.appointment.status == "Canceled")
                                         ImageVector.vectorResource(
                                             R.drawable.baseline_block_24)
                                     else
                                         ImageVector.vectorResource(
                                             R.drawable.baseline_timelapse_24),
                                 tint =
-                                    if(appointment.status == "Canceled")
+                                    if(appointment.appointment.status == "Canceled")
                                         AllAppointmentScreen_Icon_Canceled
                                     else
                                         AllAppointmentScreen_Icon_Confirmed
@@ -196,7 +193,7 @@ fun AppointmentViewHolder(
                                 contentDescription = "",
                                 modifier = Modifier.padding(horizontal = 5.dp)
                             )
-                            Text(text = appointment.status)
+                            Text(text = appointment.appointment.status)
                         }
                     }
                 }

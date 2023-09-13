@@ -15,4 +15,7 @@
     <string name="Email">Email</string>
     <string name="enter_your_Email">enter your Email</string>
     <string name="email">Email</string>
+    <string name="appointment_screen_title">Appointment</string>
+    <string name="appointment_number">Appointment Number: </string>
+    <string name="total_cost">"Total Cost: "</string>
 </resources>
