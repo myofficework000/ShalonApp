@@ -3,7 +3,7 @@ package com.example.shaloonapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shaloonapp.model.ResultState
-import com.example.shaloonapp.model.dto.Appointment
+import com.example.shaloonapp.model.dto.AppointmentWithListOfService
 import com.example.shaloonapp.model.repository.IRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ class AllAppointmentScreenViewModel
     )
     : ViewModel() {
 
-    private var _listOfAppointment = MutableStateFlow<List<Appointment>>(ArrayList<Appointment>())
+    private var _listOfAppointment = MutableStateFlow<List<AppointmentWithListOfService>>(ArrayList<AppointmentWithListOfService>())
     val listOfAppointment = _listOfAppointment.asStateFlow()
 
     private var _errorResponse = MutableStateFlow<String>("")
@@ -31,7 +31,7 @@ class AllAppointmentScreenViewModel
     }
     private fun getAllAppointment(){
         viewModelScope.launch {
-            iRepository.getAllAppointment().collectLatest { resultState ->
+            iRepository.getAllAppointmentWithListOfService().collectLatest { resultState ->
                 when(resultState){
                     is ResultState.Success ->
                         resultState.body?.let {
@@ -50,7 +50,7 @@ class AllAppointmentScreenViewModel
     }
     private fun getAppointmentByUserId(userId: Int){
         viewModelScope.launch {
-            iRepository.getAppointmentByUserId(userId).collectLatest { resultState ->
+            iRepository.getAppointmentWithListOfServiceByUserId(userId).collectLatest { resultState ->
                 when(resultState){
                     is ResultState.Success ->
                         resultState.body?.let {

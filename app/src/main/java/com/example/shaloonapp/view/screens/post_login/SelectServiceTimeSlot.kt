@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_REVIEW_SCREEN
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -125,6 +126,7 @@ fun SelectServiceTimeSlot(navController: NavController, serviceTime: Int = 45){
                                     "${selectedTime.value.minute.toString().padStart(2, '0')} -" +
                                     " ${selectedTime.value.plusMinutes(serviceTime.toLong()).hour.toString().padStart(2, '0')}" +
                                     " ${selectedTime.value.plusMinutes(serviceTime.toLong()).minute.toString().padStart(2, '0')}")
+                        navController.navigate(APPOINTMENT_REVIEW_SCREEN)
                     }
                 ) {
                     Text(text = "Next")

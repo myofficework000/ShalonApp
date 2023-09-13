@@ -1,5 +1,6 @@
 package com.example.shaloonapp.view.screens.post_login
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,11 +71,14 @@ fun SelectServiceScreen(
     postLoginSharedViewModel: PostLoginSharedViewModel
 ) {
 
+    val context = LocalContext.current
     val selectServiceScreenViewModel: SelectServiceScreenViewModel = hiltViewModel()
 
     val listOfService = selectServiceScreenViewModel.listOfService.collectAsState()
 
     var selectedService by remember { mutableStateOf<Service?>(null) }
+
+    postLoginSharedViewModel.currentService.value = selectedService
 
     var showDialog =  remember { mutableStateOf<Boolean>(false) }
 
@@ -110,7 +115,7 @@ fun SelectServiceScreen(
                 bottom.linkTo(btnChooseDate.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                top.linkTo(parent.top)
+                top.linkTo(screenTitle.bottom)
 
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
@@ -138,7 +143,8 @@ fun SelectServiceScreen(
                                 newValue = "$it"
                             )
                     )
-                }
+                   // Log.i("SelectServiceScreen",  postLoginSharedViewModel.currentService.value.toString())
+                } ?: Toast.makeText(context,"Please Select Service", Toast.LENGTH_SHORT).show()
             },
             colors = ButtonDefaults.buttonColors(Purple40),
             modifier = Modifier

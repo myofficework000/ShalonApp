@@ -1,5 +1,6 @@
 package com.example.shaloonapp.view.screens.post_login
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,10 +61,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectBarber(navController: NavController, postLoginSharedViewModel: PostLoginSharedViewModel){
+    val context = LocalContext.current
     val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
     val listOfBarber = homeScreenViewModel.listOfBarber.collectAsState()
     var selectedBarber by remember { mutableStateOf<Barber?>(null) }
 
+    postLoginSharedViewModel.currentBarber.value = selectedBarber
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(title = {
@@ -101,7 +105,10 @@ fun SelectBarber(navController: NavController, postLoginSharedViewModel: PostLog
 
         Button(
             onClick = {
-                      navController.navigate(SELECT_SERVICE_SCREEN)
+                selectedBarber?.let {
+                    navController.navigate(SELECT_SERVICE_SCREEN)
+                  //  Log.i("SelectBarber",  postLoginSharedViewModel.currentBarber.value.toString())
+                } ?: Toast.makeText(context,"Please Select Barber", Toast.LENGTH_SHORT).show()
             },
             shape= RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(Yellow),
