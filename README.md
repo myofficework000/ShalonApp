@@ -41,6 +41,7 @@ The app is a simple booking application where you can create an account, pick a 
 •Shared Preferences - To store simple data locally <br />
 •Firebase - To store data on cloud <br />
 •MVVM Architecture - To organize projects in a easy to maintain codebase<br />
+•JetPackCompose - For UI development<br />
 
 ## Architecture
 
