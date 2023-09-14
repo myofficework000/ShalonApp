@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +39,7 @@ import androidx.navigation.NavController
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.ResultState
 import com.example.shaloonapp.model.dto.User
+import com.example.shaloonapp.model.utils.putStringInSecuredSharedPreferences
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.Yellow
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes
@@ -52,6 +54,7 @@ import com.example.shaloonapp.viewmodel.LoginViewModel
 @Composable
 fun LoginScreen(navController: NavController){
 
+    val context = LocalContext.current
     val loginViewModel : LoginViewModel = hiltViewModel()
     val response = loginViewModel.user.collectAsState()
     val errorMessage = remember {
@@ -62,10 +65,17 @@ fun LoginScreen(navController: NavController){
         when(response.value){
             is ResultState.Success ->{
                 (response.value as ResultState.Success<User>).body.let{
-                    navController.navigate(PostLoginNavRoutes.HOME_SCREEN){
-                        popUpTo(LOGIN_SCREEN){
-                            inclusive = true
+                    it?.let {user->
+                        context.putStringInSecuredSharedPreferences("password", user.password)
+                        context.putStringInSecuredSharedPreferences("email", user.email)
+
+                        navController.navigate(PostLoginNavRoutes.HOME_SCREEN){
+                            popUpTo(LOGIN_SCREEN){
+                                inclusive = true
+                            }
                         }
+                    }?: kotlin.run{
+                        errorMessage.value = "Invalid Email or Password."
                     }
                 }
             }
@@ -183,6 +193,7 @@ fun CardView2(
                 onClick = {
                     GetUser(userName, password, loginViewModel)
                     onLogin()
+
                 },
                 colors = ButtonDefaults.buttonColors(Yellow),
                 modifier = Modifier

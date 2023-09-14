@@ -12,10 +12,12 @@ import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_SERVICE_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_TIME_SCREEN
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.STORE_DETAILS_SCREEN
 import com.example.shaloonapp.view.screens.HomeScreen
 import com.example.shaloonapp.view.screens.post_login.AllAppointmentScreen
 import com.example.shaloonapp.view.screens.post_login.AppointmentDetailScreen
 import com.example.shaloonapp.view.screens.post_login.AppointmentReviewScreen
+import com.example.shaloonapp.view.screens.post_login.SaloonDetailsScreen
 import com.example.shaloonapp.view.screens.post_login.SelectBarber
 import com.example.shaloonapp.view.screens.post_login.SelectServiceScreen
 import com.example.shaloonapp.view.screens.post_login.SelectServiceTimeSlot
@@ -32,6 +34,7 @@ fun NavGraphBuilder.PostLoginNavigation(
     composable(route = ALL_APPOINTMENT_SCREEN) { AllAppointmentScreen(navController,postLoginSharedViewModel)}
     composable(route = APPOINTMENT_DETAIL_SCREEN) { AppointmentDetailScreen(navController,postLoginSharedViewModel) }
     composable(route = APPOINTMENT_REVIEW_SCREEN) { AppointmentReviewScreen(navController,postLoginSharedViewModel) }
+    composable(route = STORE_DETAILS_SCREEN) { SaloonDetailsScreen() }
 
     composable(
         route = SELECT_TIME_SCREEN,
@@ -55,4 +58,5 @@ object PostLoginNavRoutes {
     const val SELECT_TIME_SCREEN = "SelectTimeScreen/{serviceTime}"
     const val HOME_SCREEN = "HomeScreen"
     const val APPOINTMENT_REVIEW_SCREEN="AppointmentReviewScreen"
+    const val STORE_DETAILS_SCREEN="StoreDetailsScreen"
 }

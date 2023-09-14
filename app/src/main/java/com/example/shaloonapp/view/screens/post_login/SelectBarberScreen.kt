@@ -159,7 +159,7 @@ fun BarbarItem(modifier: Modifier,
             selected = selectedBarber == barber,
             onClick = { onBarberSelected(barber) }
         ),
-        border = BorderStroke(1.dp, Color.LightGray),
+        border = BorderStroke(1.dp, Color.Gray),
         shape = RoundedCornerShape(8.dp),
         colors = if(selectedBarber == barber)
             CardDefaults.cardColors(containerColor = Color.LightGray)
