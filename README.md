@@ -38,6 +38,9 @@ The app is a simple booking application where you can create an account, pick a 
 •Kotlin - Main language for Android app <br />
 •Coil - To fetch image <br />
 •Roomdb - To store complex data locally <br />
+•DependencyInjectionWithHilt - for dependencies <br />
+•Coroutines - For Asynchronous Programming <br />
+•Flows - To handle asynchronous tasks such as making  network request, database queries<br />
 •Shared Preferences - To store simple data locally <br />
 •Firebase - To store data on cloud <br />
 •MVVM Architecture - To organize projects in a easy to maintain codebase<br />
