@@ -169,8 +169,8 @@ class Repository
             }
         }
     }
-    override suspend fun insertAppointment(appointment: Appointment) {
-        appointmentDao.insertAppointment(appointment)
+    override suspend fun insertAppointment(appointment: Appointment): Long {
+        return appointmentDao.insertAppointment(appointment)
     }
     override suspend fun insertMultipleAppointment(appointments: List<Appointment>) {
         appointmentDao.insertMultipleAppointment(appointments)
@@ -187,6 +187,19 @@ class Repository
                         // error
                     }
             }
+        }
+    }
+
+    override suspend fun getAllAppointmentWithListOfServiceById(appointmentId: Long)
+            : Flow<ResultState<AppointmentWithListOfService>> {
+        return flow {
+            appointmentWithListOfServiceDao
+                .getAppointmentWithListOfServiceById(appointmentId).apply {
+                    emit(ResultState.Success(this))
+                        .runCatching {
+                            // error
+                        }
+                }
         }
     }
 

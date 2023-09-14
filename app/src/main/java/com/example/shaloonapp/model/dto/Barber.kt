@@ -7,7 +7,7 @@ import com.example.shaloonapp.model.Constant.BARBER_TABLE_NAME
 @Entity(tableName = BARBER_TABLE_NAME)
 data class Barber(
     @PrimaryKey(autoGenerate = true)
-    val barberId: Int? =0,
+    val barberId: Long =0,
 
     val firstName: String ="",
     val lastName: String ="",

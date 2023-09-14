@@ -7,7 +7,7 @@ import com.example.shaloonapp.model.Constant.SERVICE_TABLE_NAME
 @Entity(tableName = SERVICE_TABLE_NAME)
 data class Service(
     @PrimaryKey(autoGenerate = true)
-    val serviceId: Int? = 0,
+    val serviceId: Long = 0,
 
     val name: String ="",
     val price: Int =0,

@@ -109,8 +109,10 @@ fun SelectServiceScreen(
                 modifier = Modifier.padding(20.dp))
         }
 
-        LazyColumn(modifier = Modifier
-            .padding(20.dp)
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+            .padding(start = 8.dp, top = 10.dp, end = 8.dp)
             .constrainAs(serviceContainer) {
                 bottom.linkTo(btnChooseDate.top)
                 start.linkTo(parent.start)
@@ -202,7 +204,6 @@ fun ServiceViewHolder(
 
     Card(
         modifier = Modifier
-            .padding(10.dp)
             .fillMaxWidth()
             .selectable(
                 selected = (selectedService == service),

@@ -42,7 +42,7 @@ fun NavGraphBuilder.PostLoginNavigation(
         )
     ) {
         it.arguments?.getInt("serviceTime")?.let {serviceTime ->
-            SelectServiceTimeSlot(navController, serviceTime)
+            SelectServiceTimeSlot(navController, serviceTime, postLoginSharedViewModel)
         }
     }
 }

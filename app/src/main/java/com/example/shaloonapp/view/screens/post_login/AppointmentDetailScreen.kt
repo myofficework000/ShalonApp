@@ -147,7 +147,7 @@ fun AppointmentDetailContainer(appointment: Appointment) {
                 }
 
                 Row(
-                    modifier = Modifier.padding(20.dp).fillMaxWidth(),
+                    modifier = Modifier.padding(10.dp).fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
 
                 ) {
@@ -173,7 +173,7 @@ fun AppointmentDetailContainer(appointment: Appointment) {
                 }
 
 
-                Row( modifier = Modifier.padding(vertical = 5.dp)) {
+                Row( modifier = Modifier.padding(10.dp)) {
                     Icon(
                         imageVector =
                         if(appointment.status == "Canceled")
@@ -251,14 +251,12 @@ fun ServicesContainer( services: List<Service>){
     val totalCost = services.sumOf { it.price }
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
+            .fillMaxWidth().padding(20.dp)
     ) {
         Text(text = "Services",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,)
         LazyColumn(modifier = Modifier
-            .padding(horizontal = 20.dp)
             .height(300.dp)
             .fillMaxWidth()
         ){

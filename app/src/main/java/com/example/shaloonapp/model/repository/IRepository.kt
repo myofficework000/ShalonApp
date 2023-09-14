@@ -38,8 +38,10 @@ interface IRepository {
     suspend fun getAllAppointment(): Flow<ResultState<List<Appointment>>>
     suspend fun getAppointmentById(appointmentId: Int): Flow<ResultState<Appointment>>
     suspend fun getAppointmentByUserId(userId: Int): Flow<ResultState<List<Appointment>>>
-    suspend fun insertAppointment(appointment: Appointment)
+    suspend fun insertAppointment(appointment: Appointment) :Long
     suspend fun insertMultipleAppointment(appointments: List<Appointment>)
+
+    suspend fun getAllAppointmentWithListOfServiceById(appointmentId: Long): Flow<ResultState<AppointmentWithListOfService>>
     suspend fun getAllAppointmentWithListOfService(): Flow<ResultState<List<AppointmentWithListOfService>>>
     suspend fun getAppointmentWithListOfServiceByUserId(userId: Int): Flow<ResultState<List<AppointmentWithListOfService>>>
 
@@ -47,4 +49,6 @@ interface IRepository {
     suspend fun insertAppointmentWithServiceCrossRef(appointmentWithServiceCrossRef: AppointmentWithServiceCrossRef)
     suspend fun getAllAppointmentWithServiceCrossRef(): Flow<ResultState<List<AppointmentWithServiceCrossRef>>>
     suspend fun insertMultipleAppointmentWithServiceCrossRef(appointmentWithServiceCrossRefs: List<AppointmentWithServiceCrossRef>)
+
+
 }

@@ -16,6 +16,6 @@ import com.example.shaloonapp.model.Constant.APPOINTMENT_WITH_SERVICE_TABLE_NAME
     ],
     primaryKeys = ["appointmentId", "serviceId"])
 data class AppointmentWithServiceCrossRef(
-    val appointmentId: Int ,
-    val serviceId: Int ,
+    val appointmentId: Long ,
+    val serviceId: Long ,
 )

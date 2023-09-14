@@ -1,7 +1,9 @@
 package com.example.shaloonapp.view.screens.post_login
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.shaloonapp.ui.theme.SelectServiceScreen_TitleScreen_BackGround
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_REVIEW_SCREEN
+import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -47,7 +50,11 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("NewApi")
 @Composable
-fun SelectServiceTimeSlot(navController: NavController, serviceTime: Int = 45){
+fun SelectServiceTimeSlot(
+    navController: NavController,
+    serviceTime: Int = 45,
+    postLoginSharedViewModel: PostLoginSharedViewModel
+){
     val timeSlots = populateTimeSlots()
     val selectedTime =  remember {
         mutableStateOf(LocalTime.of(0,0))
@@ -60,6 +67,7 @@ fun SelectServiceTimeSlot(navController: NavController, serviceTime: Int = 45){
     }
     val selectedOptionText = remember { mutableStateOf(days[currentDayIndex.value]) }
 
+    postLoginSharedViewModel.currentDate.value = selectedOptionText.value
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -126,6 +134,7 @@ fun SelectServiceTimeSlot(navController: NavController, serviceTime: Int = 45){
                                     "${selectedTime.value.minute.toString().padStart(2, '0')} -" +
                                     " ${selectedTime.value.plusMinutes(serviceTime.toLong()).hour.toString().padStart(2, '0')}" +
                                     " ${selectedTime.value.plusMinutes(serviceTime.toLong()).minute.toString().padStart(2, '0')}")
+                        postLoginSharedViewModel.currentTime.value = timeToString(selectedTime.value,serviceTime)
                         navController.navigate(APPOINTMENT_REVIEW_SCREEN)
                     }
                 ) {
@@ -226,4 +235,12 @@ fun populateTimeSlots(): List<LocalTime>{
         }
     }
     return listOfSlots
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun timeToString(selectedTime : LocalTime, serviceTime: Int): String{
+    return " ${selectedTime.hour.toString().padStart(2, '0')}: " +
+            "${selectedTime.minute.toString().padStart(2, '0')} -" +
+            " ${selectedTime.plusMinutes(serviceTime.toLong()).hour.toString().padStart(2, '0')}" +
+            " ${selectedTime.plusMinutes(serviceTime.toLong()).minute.toString().padStart(2, '0')}"
 }

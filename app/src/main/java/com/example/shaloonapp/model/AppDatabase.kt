@@ -21,7 +21,7 @@ import com.example.shaloonapp.model.dto.User
         User::class, Service::class, Barber::class,
         Appointment::class, AppointmentWithServiceCrossRef::class
     ],
-    version = 4, exportSchema = false)
+    version = 6, exportSchema = false)
 abstract class AppDatabase:RoomDatabase() {
 
     abstract fun getUserDao(): UserDao

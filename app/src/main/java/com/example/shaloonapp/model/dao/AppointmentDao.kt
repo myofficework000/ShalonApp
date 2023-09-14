@@ -19,7 +19,7 @@ interface AppointmentDao {
     suspend fun getAppointmentByUserId(userId: Int): List<Appointment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAppointment(appointment: Appointment)
+    suspend fun insertAppointment(appointment: Appointment) :Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMultipleAppointment(appointment: List<Appointment>)
