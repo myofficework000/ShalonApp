@@ -15,14 +15,14 @@ import com.example.shaloonapp.view.screens.SplashScreen
 import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 
 @Composable
-fun PreLoginNavigation() {
+fun PreLoginNavigation(startDestination: String = SPLASH_SCREEN) {
     val navController = rememberNavController()
 
     val postLoginSharedViewModel: PostLoginSharedViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
-        startDestination = HOME_SCREEN
+        startDestination = startDestination
     ) {
         //Add all the destinations
         composable(route = SPLASH_SCREEN) { SplashScreen(navController) }

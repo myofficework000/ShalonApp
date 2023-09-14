@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,9 +51,14 @@ import coil.compose.AsyncImage
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
+import com.example.shaloonapp.model.utils.deleteSharedPreferences
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.STORE_DETAILS_SCREEN
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
 import com.example.shaloonapp.viewmodel.HomeScreenViewModel
@@ -66,7 +72,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, postLoginSharedViewModel: PostLoginSharedViewModel){
-
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -127,16 +133,25 @@ fun HomeScreen(navController: NavController, postLoginSharedViewModel: PostLogin
                     painterResource(id = R.drawable.baseline_history_24),
                     text = "History"
                 ){
-                    navController.navigate(ALL_APPOINTMENT_SCREEN)
+                    navController.navigate(PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN)
                 }
                 ListItem(
                     painterResource(id = R.drawable.baseline_access_time_24),
-                    text = "Hours"
-                )
+                    text = "About"
+                ){
+                    navController.navigate(STORE_DETAILS_SCREEN)
+                }
                 ListItem(
                     painterResource(id = R.drawable.baseline_logout_24),
                     text = "Logout"
-                )
+                ){
+                    context.deleteSharedPreferences()
+                    navController.navigate(LOGIN_SCREEN){
+                        popUpTo(HOME_SCREEN){
+                            inclusive = true
+                        }
+                    }
+                }
 
             }
 
@@ -173,7 +188,7 @@ fun CardItems(modifier: Modifier){
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.labelLarge,
-                text = "Available HairCuts"
+                text = "Available Services"
             )
 
             LazyRow(modifier = Modifier.padding(start = 5.dp,top=10.dp, end = 5.dp, bottom = 10.dp),
@@ -192,7 +207,7 @@ fun CardItems(modifier: Modifier){
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.labelLarge,
-                text = "Available Barbars"
+                text = "Available Barbers"
             )
 
             LazyRow(modifier = Modifier.padding(start = 5.dp,top=10.dp, end = 5.dp),

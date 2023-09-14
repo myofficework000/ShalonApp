@@ -225,7 +225,7 @@ class InitializeDataViewModel @Inject constructor(
     fun getListOfUser()= listOf(
         User(0,"duc","nguyen","",""),
         User(1,"hu","shiyan","",""),
-        User(2,"pavani","velma","",""),
+        User(2,"pavani","velma","pavani@gmail.com","password"),
         User(3,"yuan","yao","",""),
         User(4,"amar","sapcanin","",""),
         User(5,"john","doe","",""),

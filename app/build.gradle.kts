@@ -137,5 +137,12 @@ dependencies {
 
 
     implementation ("com.github.a914-gowtham:compose-ratingbar:1.3.4")
+//ENcrypted sharedPref
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Google maps
+    implementation ("com.google.maps.android:maps-compose:2.0.0")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
 }
