@@ -16,7 +16,7 @@ interface BarberDao {
     suspend fun getBarberById(barberId:Int): Barber
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBarber(barber: Barber)
+    suspend fun insertBarber(barber: Barber) :Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMultipleBarber(barber: List<Barber>)

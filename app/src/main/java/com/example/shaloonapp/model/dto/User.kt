@@ -7,7 +7,7 @@ import com.example.shaloonapp.model.Constant.USER_TABLE_NAME
 @Entity(tableName = USER_TABLE_NAME)
 data class User(
     @PrimaryKey(autoGenerate = true)
-    val userId: Int? =0,
+    val userId: Long =0,
 
     val firstName: String ="",
     val lastName: String = "",

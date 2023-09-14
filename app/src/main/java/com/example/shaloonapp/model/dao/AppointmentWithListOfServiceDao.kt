@@ -17,7 +17,7 @@ interface AppointmentWithListOfServiceDao {
     @Transaction
     @Query(
         "SELECT * FROM $APPOINTMENT_TABLE_NAME WHERE appointmentId = :appointmentId")
-    suspend fun getAppointmentWithListOfServiceById(appointmentId: Int): List<AppointmentWithListOfService>
+    suspend fun getAppointmentWithListOfServiceById(appointmentId: Long): AppointmentWithListOfService
 
     @Transaction
     @Query("SELECT * FROM $APPOINTMENT_TABLE_NAME WHERE  userId = :userId")

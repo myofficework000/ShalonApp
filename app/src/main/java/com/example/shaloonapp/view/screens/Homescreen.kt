@@ -51,6 +51,7 @@ import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.ui.theme.Purple40
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
 import com.example.shaloonapp.view.util.getImgURLFromFirebase
@@ -125,7 +126,9 @@ fun HomeScreen(navController: NavController, postLoginSharedViewModel: PostLogin
                 ListItem(
                     painterResource(id = R.drawable.baseline_history_24),
                     text = "History"
-                )
+                ){
+                    navController.navigate(ALL_APPOINTMENT_SCREEN)
+                }
                 ListItem(
                     painterResource(id = R.drawable.baseline_access_time_24),
                     text = "Hours"

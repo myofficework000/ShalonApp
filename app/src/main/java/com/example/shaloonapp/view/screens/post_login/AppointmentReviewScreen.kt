@@ -1,6 +1,7 @@
 package com.example.shaloonapp.view.screens.post_login
 
-import androidx.compose.foundation.layout.Arrangement
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,10 +23,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,10 +35,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.shaloonapp.R
 import com.example.shaloonapp.model.dto.Appointment
-import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Canceled
-import com.example.shaloonapp.ui.theme.AllAppointmentScreen_Icon_Confirmed
 import com.example.shaloonapp.ui.theme.AppointmentDetailScreen_TitleScreen_BackGround
-import com.example.shaloonapp.view.navigation.PostLoginNavRoutes
+import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.APPOINTMENT_DETAIL_SCREEN
 import com.example.shaloonapp.viewmodel.PostLoginSharedViewModel
 
 @Composable
@@ -45,11 +44,23 @@ fun AppointmentReviewScreen(
     navController: NavHostController,
     postLoginSharedViewModel: PostLoginSharedViewModel
 ) {
-    val currentAppointment = postLoginSharedViewModel.currentAppointment.observeAsState()
+    val context = LocalContext.current
+   // val currentAppointment = postLoginSharedViewModel.currentAppointment.observeAsState()
     val currentBarber = postLoginSharedViewModel.currentBarber.observeAsState()
     val currentService = postLoginSharedViewModel.currentService.observeAsState()
+    val currentDate = postLoginSharedViewModel.currentDate.observeAsState()
+    val currentTime = postLoginSharedViewModel.currentTime.observeAsState()
 
+    val appointment =
+        currentDate.value?.let {
+            Appointment(1,currentBarber.value?.barberId,
+                it,currentTime.value ?:"",
+                currentService.value?.price?.toDouble() ?: 0.0,
+                "Confirmed",
+                "")
+        }
 
+    val insertResult =postLoginSharedViewModel.appointmentInsertResultLiveData.observeAsState()
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -57,9 +68,10 @@ fun AppointmentReviewScreen(
     ) {
         AppointmentReviewScreenHeader(navController = navController)
 
-        currentAppointment.value?.let {
-            AppointmentDetailContainer(appointment = it.appointment)
+        currentDate.value?.let {
+            AppointmentReviewContainer(date = it, time = currentTime.value ?:"")
         }
+
         currentBarber.value?.let {
             BarberDetailsContainer(barber = it)
         }
@@ -68,13 +80,20 @@ fun AppointmentReviewScreen(
         }
 
         Button(
-            onClick = { navController.navigate(PostLoginNavRoutes.HOME_SCREEN) },
+            onClick = {
+                postLoginSharedViewModel.insertAppointment(appointment!!, currentService.value!!)
+
+                insertResult.value?.let {
+                        if(it > 0L )
+                            navController.navigate(APPOINTMENT_DETAIL_SCREEN)
+
+                    }
+                 },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)) {
             Text(text = stringResource(R.string.confirm_appointment_btn_txt))
         }
-
 
     }
 }
@@ -108,26 +127,23 @@ fun AppointmentReviewScreenHeader(navController: NavHostController,){
 }
 
 @Composable
-fun AppointmentReviewContainer(appointment: Appointment) {
+fun AppointmentReviewContainer(date: String, time: String) {
     Column(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(20.dp)
     ) {
         Row( modifier = Modifier) {
             Column(
-                horizontalAlignment = Alignment.Start,
                 modifier = Modifier
             )
             {
 
-                Text(text = "Date",
+                Text(text = "Date and Time",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,)
                 Row(
                     modifier = Modifier
-                        .padding(20.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
 
                 ) {
                     Row( modifier = Modifier) {
@@ -136,7 +152,7 @@ fun AppointmentReviewContainer(appointment: Appointment) {
                             contentDescription = "",
                             modifier = Modifier.padding(horizontal = 5.dp)
                         )
-                        Text(text = appointment.appointmentDate)
+                        Text(text = date)
                     }
                     Spacer(modifier = Modifier.size(10.dp))
 
@@ -147,36 +163,21 @@ fun AppointmentReviewContainer(appointment: Appointment) {
                             contentDescription = "",
                             modifier = Modifier.padding(horizontal = 5.dp)
                         )
-                        Text(text = appointment.appointmentTime)
+                        Text(text = time)
                     }
                 }
 
-
-                Row( modifier = Modifier.padding(vertical = 5.dp)) {
-                    Icon(
-                        imageVector =
-                        if(appointment.status == "Canceled")
-                            ImageVector.vectorResource(
-                                R.drawable.baseline_block_24)
-                        else
-                            ImageVector.vectorResource(
-                                R.drawable.baseline_timelapse_24),
-                        tint =
-                        if(appointment.status == "Canceled")
-                            AllAppointmentScreen_Icon_Canceled
-                        else
-                            AllAppointmentScreen_Icon_Confirmed
-                        ,
-                        contentDescription = "",
-                        modifier = Modifier.padding(horizontal = 5.dp)
-                    )
-                    Text(text = appointment.status)
-                }
             }
         }
     }
 
 }
+
+fun showToast(context: Context, message: String){
+    Toast.makeText(context,message, Toast.LENGTH_SHORT).show()
+}
+
+
 
 
 

@@ -22,7 +22,7 @@ interface UserDao {
     suspend fun getUserForCredentials(email:String,password:String):User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUser(user: User)
+    suspend fun insertUser(user: User) :Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMultipleService(users: List<User>)
