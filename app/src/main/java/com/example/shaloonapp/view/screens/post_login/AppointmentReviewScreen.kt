@@ -91,7 +91,7 @@ fun AppointmentReviewScreen(
                  },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)) {
+                .padding(horizontal = 16.dp, vertical = 16.dp)) {
             Text(text = stringResource(R.string.confirm_appointment_btn_txt))
         }
 
@@ -146,7 +146,7 @@ fun AppointmentReviewContainer(date: String, time: String) {
                         .fillMaxWidth(),
 
                 ) {
-                    Row( modifier = Modifier) {
+                    Row( modifier = Modifier.padding(top=10.dp)) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = "",
@@ -156,7 +156,7 @@ fun AppointmentReviewContainer(date: String, time: String) {
                     }
                     Spacer(modifier = Modifier.size(10.dp))
 
-                    Row( modifier = Modifier) {
+                    Row( modifier = Modifier.padding(top=10.dp)) {
                         Icon(
                             imageVector = ImageVector.vectorResource(
                                 R.drawable.baseline_access_time_filled_24),
