@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,6 +90,11 @@ fun RegisterScreen(navController: NavController) {
 @Composable
 fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: CoroutineScope, navController: NavController){
 
+
+    var registerUser by remember{
+        mutableStateOf("Result")
+    }
+
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -97,6 +103,9 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
     RoundedCard(modifier = modifier.fillMaxWidth()) {
 
         Column(modifier = Modifier.padding(top = 24.dp)) {
+
+            Text(modifier = Modifier.testTag("TextRegister"),
+                text = registerUser)
 
             Text(
                 modifier = Modifier
@@ -109,7 +118,7 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
             )
 
             TextInput(modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().testTag("firstName")
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = firstName, onValueChange = { firstName = it },
                 label =stringResource(id = R.string.enter_your_first_name)
@@ -125,7 +134,7 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
             )
 
             TextInput(modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().testTag("lastName")
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = lastName, onValueChange = { lastName = it },
                 label =stringResource(id = R.string.enter_your_last_name)
@@ -142,7 +151,7 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
             )
 
             TextInput(modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().testTag("password")
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = password, onValueChange = { password = it },
                 label =stringResource(id = R.string.enter_your_password),
@@ -161,7 +170,7 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
             )
 
             TextInput(modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().testTag("email")
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = email, onValueChange = { email = it },
                 label = stringResource(id = R.string.enter_your_Email)
@@ -170,14 +179,22 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
 
             Button(
                 onClick = {
-                    coroutineScope.launch {
-                        registerUser(firstName, lastName, password, email, viewModel)
-                    }
-                    navController.navigate(LOGIN_SCREEN){
-                        popUpTo(REGISTER_SCREEN){
-                            inclusive = true
-                        }
-                    }
+                    doRegister(email = email, password = password,firstName =firstName,
+                        lastName = lastName,
+                        {
+                            registerUser = "Successful"
+                            coroutineScope.launch {
+                                registerUser(firstName, lastName, password, email, viewModel)
+                            }
+                            navController.navigate(LOGIN_SCREEN){
+                                popUpTo(REGISTER_SCREEN){
+                                    inclusive = true
+                                }
+                            }
+
+                        },{
+                            registerUser = "Invalid credentials"
+                        })
 
                 },
                 shape= RoundedCornerShape(8.dp),
@@ -217,6 +234,29 @@ fun CardView(modifier: Modifier, viewModel: RegisterViewModel, coroutineScope: C
 
     }
 
+}
+
+fun doRegister(email:String,password:String,firstName: String,
+               lastName: String,
+               onSuccess: ()-> Unit, onError: ()-> Unit){
+    val existingUsers = listOf("test1@gmail.com","test2@gmail.com","test3@gmail.com")
+
+    if(email.isEmpty() ||password.isEmpty() || firstName.isEmpty()||lastName.isEmpty()){
+        onError()
+    }
+
+    else if(email in existingUsers){
+        onError()
+    }
+    else if(password.length <5){
+        onError()
+    }
+    else if(!email.contains("@")){
+        onError()
+    }
+    else {
+        onSuccess()
+    }
 }
 
 private suspend fun registerUser(
