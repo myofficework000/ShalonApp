@@ -14,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,9 +45,8 @@ import com.example.shaloonapp.model.utils.putStringInSecuredSharedPreferences
 import com.example.shaloonapp.ui.theme.Purple40
 import com.example.shaloonapp.ui.theme.Yellow
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes
-import com.example.shaloonapp.view.navigation.PreLoginNavRoutes
 import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.LOGIN_SCREEN
-import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.SPLASH_SCREEN
+import com.example.shaloonapp.view.navigation.PreLoginNavRoutes.REGISTER_SCREEN
 import com.example.shaloonapp.view.screens.components.RoundedCard
 import com.example.shaloonapp.view.screens.components.TextInput
 import com.example.shaloonapp.viewmodel.LoginViewModel
@@ -88,13 +89,14 @@ fun LoginScreen(navController: NavController){
 
     }
 
-    LoginContent(loginViewModel = loginViewModel, errorMessage.value)
+    LoginContent(loginViewModel = loginViewModel, errorMessage.value, navController)
 }
 
 @Composable
 fun LoginContent(
     loginViewModel: LoginViewModel,
-    errorMessage: String = ""
+    errorMessage: String = "",
+    navController: NavController
 ){
     Column(modifier = Modifier
         .fillMaxSize()
@@ -113,6 +115,7 @@ fun LoginContent(
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(top = 10.dp),
+            navController = navController,
             loginViewModel = loginViewModel,
             errorMessage = errorMessage
         )
@@ -124,6 +127,7 @@ fun CardView2(
     modifier: Modifier,
     loginViewModel: LoginViewModel,
     errorMessage: String,
+    navController: NavController,
     onLogin: () -> Unit = {}
 ){
 
@@ -139,6 +143,7 @@ fun CardView2(
                 Text(text = errorMessage,
                     color = Color.Red,
                     modifier = Modifier
+                        .testTag("Error Message")
                         .fillMaxWidth()
                         .padding(top = 10.dp, start = 10.dp),
                     textAlign = TextAlign.Start,
@@ -160,6 +165,7 @@ fun CardView2(
             )
 
             TextInput(modifier = Modifier
+                .testTag("Input Email")
                 .fillMaxWidth()
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = userName,
@@ -180,6 +186,7 @@ fun CardView2(
             )
 
             TextInput(modifier = Modifier
+                .testTag("Input Password")
                 .fillMaxWidth()
                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                 text = password,
@@ -197,6 +204,7 @@ fun CardView2(
                 },
                 colors = ButtonDefaults.buttonColors(Yellow),
                 modifier = Modifier
+                    .testTag("SignIn Button")
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
@@ -208,23 +216,36 @@ fun CardView2(
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
                 )
             }
-
-            Text(
+            TextButton(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 10.dp),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodySmall,
-                text = stringResource(id = R.string.Aleardy_have_an_account_Login)
+                    .testTag("SignUp Button"),
+                onClick = {
+                navController.navigate(REGISTER_SCREEN){
+                    popUpTo(LOGIN_SCREEN){
+                        inclusive = true
+                    }
+                }
+            }) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp, start = 10.dp),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodySmall,
+                    text = "Don't have the account? SignUp"
 
-            )
+                )
+            }
+
+
 
         }
 
     }
 
 }
+
 
 
 

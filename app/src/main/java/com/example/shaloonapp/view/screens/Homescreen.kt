@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,7 +54,6 @@ import com.example.shaloonapp.model.dto.Barber
 import com.example.shaloonapp.model.dto.Service
 import com.example.shaloonapp.model.utils.deleteSharedPreferences
 import com.example.shaloonapp.ui.theme.Purple40
-import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.ALL_APPOINTMENT_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.HOME_SCREEN
 import com.example.shaloonapp.view.navigation.PostLoginNavRoutes.SELECT_BARBER_SCREEN
@@ -93,6 +93,7 @@ fun HomeScreen(navController: NavController, postLoginSharedViewModel: PostLogin
                 .fillMaxSize()
                 .padding(it)
                 .background(Purple40)
+                .testTag("Home Screen")
         ) {
 
             Text(

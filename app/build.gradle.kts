@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.example.shaloonapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.shaloonapp"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -126,23 +126,35 @@ dependencies {
     //lottie animation
     implementation("com.airbnb.android:lottie-compose:6.0.1")
 
-    // navigation component
-    implementation("androidx.navigation:navigation-compose:2.5.0")
 
-    // For Observing the state of Livedata in Compose
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
     implementation("androidx.compose.material3:material3:1.1.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
 
 
     implementation ("com.github.a914-gowtham:compose-ratingbar:1.3.4")
-//ENcrypted sharedPref
+    //ENcrypted sharedPref
     implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 
     // Google maps
     implementation ("com.google.maps.android:maps-compose:2.0.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // testing navController
+    androidTestImplementation ("androidx.navigation:navigation-testing:2.5.3")
+
+    // Mock
+    testImplementation("io.mockk:mockk:1.12.3")
+    androidTestImplementation("io.mockk:mockk-android:1.12.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+
+
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation ("org.mockito:mockito-inline:3.11.2")
+
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+
 
 }
