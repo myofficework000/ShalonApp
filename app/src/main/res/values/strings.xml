@@ -10,10 +10,10 @@
     <string name="last_name">Last Name</string>
     <string name="enter_your_first_name">enter your first name</string>
     <string name="enter_your_last_name">enter your last name</string>
-    <string name="password">password</string>
-    <string name="enter_your_password">enter your password</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
     <string name="Email">Email</string>
-    <string name="enter_your_Email">enter your Email</string>
+    <string name="enter_your_Email">Enter your Email</string>
     <string name="email">Email</string>
     <string name="appointment_screen_title">Appointment</string>
     <string name="appointment_number">Appointment Number: </string>
